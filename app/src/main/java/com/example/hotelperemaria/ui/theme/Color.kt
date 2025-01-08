@@ -10,8 +10,3 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val WhiteSmoke = Color(0xFFF4F4F4)
-val Silver = Color(0xFFBCBCBC)
-val White = Color(0xFFFBFBFB)
-val Onyx = Color(0xFF3C3C3C)
-val UranianBlue = Color(0xFFB0DAF1)
