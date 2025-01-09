@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.hotelperemaria"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.hotelperemaria"
@@ -56,4 +56,8 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //implementations extra
+    implementation(libs.androidx.navigation.compose)
+
 }

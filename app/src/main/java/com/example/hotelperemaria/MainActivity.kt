@@ -1,5 +1,6 @@
-package com.example.hotelperemaria
+   package com.example.hotelperemaria
 
+import AppNavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,29 +20,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HotelPereMariaTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNavigation()
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HotelPereMariaTheme {
-        Greeting("Android")
-    }
-}
