@@ -18,7 +18,7 @@ fun AppNavigation() {
         }
 
         composable(route = AppScreens.ThirdScreen.route){
-            Text("Aqui va la tercera pantalla")
+            Text("Aqui va la tercera pantalla de prueba")
         }
     }
 }
