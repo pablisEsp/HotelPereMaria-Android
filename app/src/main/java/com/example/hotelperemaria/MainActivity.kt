@@ -22,6 +22,7 @@ class MainActivity : ComponentActivity() {
             HotelPereMariaTheme {
                 AppNavigation()
                 //cksagzahj
+                //otro caambio
             }
         }
     }
