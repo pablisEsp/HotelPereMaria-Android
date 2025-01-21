@@ -8,10 +8,10 @@ import androidx.compose.ui.graphics.Color
 
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFFF4F4F4),//whiteSmoke
-    secondary = Color(0xFFBCBCBC),//Silver
+    background = Color(0xFFF4F4F4),//whiteSmoke
+    primary = Color(0xFFBCBCBC),//Silver
     tertiary = Color(0xFFFBFBFB), //White
-    background = Color(0xFF3C3C3C), //Onix
+     secondary = Color(0xFF3C3C3C), //Onix
     surface = Color(0xFFB0DAF1) //UranianBlue
 )
 
