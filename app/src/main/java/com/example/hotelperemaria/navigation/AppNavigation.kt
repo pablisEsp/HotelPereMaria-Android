@@ -1,3 +1,5 @@
+package com.example.hotelperemaria.navigation
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.Placeholder
 import androidx.navigation.compose.NavHost
@@ -18,6 +20,5 @@ fun AppNavigation() {
             BookRoomsScreen(navController = navController)
             //lele
         }
-
     }
 }
