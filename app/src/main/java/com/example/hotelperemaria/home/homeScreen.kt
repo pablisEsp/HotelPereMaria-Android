@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
+import com.example.hotelperemaria.utils.BottomAppBarCustom
 
 // Datos de ejemplo
 data class Habitacion(val id: Int, val nombre: String, val descripcion: String, val imagen: Int)
@@ -34,7 +35,7 @@ fun HomeScreen(navController: NavController) {
         containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             BottomAppBar {
-                NavigationBar(navController)
+                BottomAppBarCustom()
             }
         }
 
@@ -91,7 +92,8 @@ fun HabitacionCard(habitacion: Habitacion, onClick: () -> Unit) {
 
             Text(
                 text = habitacion.nombre,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(4.dp))
             Image(
@@ -104,34 +106,9 @@ fun HabitacionCard(habitacion: Habitacion, onClick: () -> Unit) {
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = habitacion.descripcion,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.surface
             )
         }
-    }
-}
-
-@Composable
-fun NavigationBar(navController: NavController) {
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary
-    ) {
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-            label = { Text("Home") },
-            selected = false,
-            onClick = { /* Maneja la navegación a Home aquí */ }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.DateRange, contentDescription = "Booking") },
-            label = { Text("Booking") },
-            selected = false,
-            onClick = { /* Maneja la navegación a Booking aquí */ }
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Default.Person, contentDescription = "Profile") },
-            label = { Text("Profile") },
-            selected = false,
-            onClick = { /* Maneja la navegación a Profile aquí */ }
-        )
     }
 }
