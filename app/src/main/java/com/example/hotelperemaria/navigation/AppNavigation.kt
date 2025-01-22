@@ -16,6 +16,7 @@ fun AppNavigation() {
     NavHost(navController = navController, startDestination = AppScreens.BookRoomsScreen.route ){
         composable(route = AppScreens.BookRoomsScreen.route){
             BookRoomsScreen(navController = navController)
+            //lele
         }
 
     }
