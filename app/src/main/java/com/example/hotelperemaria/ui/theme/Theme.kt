@@ -1,25 +1,30 @@
 package com.example.hotelperemaria.ui.theme
 
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 
 
 private val DarkColorScheme = darkColorScheme(
-    background = Color(0xFFF4F4F4),//whiteSmoke
-    primary = Color(0xFFBCBCBC),//Silver
-    tertiary = Color(0xFFFBFBFB), //White
-    secondary = Color(0xFF3C3C3C), //Onix
-    surface = Color(0xFFB0DAF1) //UranianBlue
+        primary = Color(0xFF6200EA),
+        secondary = Color(0xFF03DAC5),
+        background = Color(0xFFF6F6F6),
+        surface = Color.White,
+        onPrimary = Color.White,
+        onSecondary = Color.Black,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
+    primary = Color(0xFF6200EA),
+    secondary = Color(0xFF03DAC5),
+    background = Color(0xFFF6F6F6),
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
@@ -37,6 +42,9 @@ fun HotelPereMariaTheme(
 ) {
    MaterialTheme(
        colorScheme = DarkColorScheme, // Usamos solo el tema oscuro
-       content = content
-   )
+       content = content,
+       typography = Typography(
+           bodyLarge = MaterialTheme.typography.bodyLarge.copy(
+               fontSize = 18.sp
+           )))
 }

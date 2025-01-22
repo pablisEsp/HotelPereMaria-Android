@@ -5,6 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose
+    .material.icons.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -31,7 +34,7 @@ val habitaciones = listOf(
 @Composable
 fun HomeScreen(navController: NavController) {
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.primary,
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             BottomAppBar {
                 BottomAppBarCustom()
@@ -65,8 +68,7 @@ fun HomeScreen(navController: NavController) {
                 items(habitaciones) { habitacion ->
                     HabitacionCard(habitacion = habitacion) {
                         navController.navigate("detalle_habitacion/${habitacion.id}")
-                    }
-                }
+                    }                }
             }
         }
     }

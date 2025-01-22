@@ -1,5 +1,3 @@
-package com.example.hotelperemaria.navigation
-
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,12 +9,12 @@ import com.example.hotelperemaria.search_room.screens.BookRoomsScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppScreens.homeScreen.route) {
+    NavHost(navController = navController, startDestination = AppScreens.BookRoomsScreen.route) {
         composable(route = AppScreens.homeScreen.route) {
-            HomeScreen(navController)
-        }
+            HomeScreen(navController)}
         composable(route = AppScreens.BookRoomsScreen.route) {
             BookRoomsScreen(navController = navController)
         }
+
     }
 }
