@@ -1,5 +1,6 @@
 package com.example.hotelperemaria.home
 
+import PantallaInicio
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -33,84 +34,6 @@ val habitaciones = listOf(
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = {
-            BottomAppBar {
-                BottomAppBarCustom()
-            }
-        }
-
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            // Imagen en la parte superior
-            Image(
-                painter = painterResource(id = R.drawable.suiteodinlivingroom),
-                contentDescription = "Imagen del hotel",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp) // Ajusta la altura según lo necesario
-                    .padding(top = 0.dp),
-                contentScale = ContentScale.Crop // Escala la imagen para que ocupe todo el ancho
-            )
-
-            // Lista de habitaciones debajo de la imagen
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-            ) {
-                items(habitaciones) { habitacion ->
-                    HabitacionCard(habitacion = habitacion) {
-                        navController.navigate("detalle_habitacion/${habitacion.id}")
-                    }                }
-            }
-        }
-    }
+    PantallaInicio(habitaciones)
 }
 
-@Composable
-fun HabitacionCard(habitacion: Habitacion, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(8.dp)
-            .clickable { onClick() }, //makes the card clickable
-        elevation = CardDefaults.cardElevation(4.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondary
-        )
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp)
-        ) {
-
-            Text(
-                text = habitacion.nombre,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Image(
-                painter = painterResource(id = habitacion.imagen),
-                contentDescription = habitacion.nombre,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = habitacion.descripcion,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.surface
-            )
-        }
-    }
-}

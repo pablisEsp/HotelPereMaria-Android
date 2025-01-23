@@ -41,10 +41,6 @@ android {
 
 dependencies {
 
-    // Accompanist pager
-    implementation("com.google.accompanist:accompanist-pager:0.31.0")
-
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -63,8 +59,8 @@ dependencies {
 
     //implementations extra
     implementation(libs.androidx.navigation.compose)
-    implementation("io.coil-kt.coil3:coil-compose:3.0.4")
-    implementation("androidx.compose.material:material-icons-extended:<version>")//para tener mas iconos
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.material.icons.extended)//para tener mas iconos
 
 
 
