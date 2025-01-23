@@ -17,10 +17,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
+import com.example.hotelperemaria.home.model.Habitacion
 import com.example.hotelperemaria.utils.BottomAppBarCustom
 
 // Datos de ejemplo
-data class Habitacion(val id: Int, val nombre: String, val descripcion: String, val imagen: Int)
 
 val habitaciones = listOf(
     Habitacion(1, "Suite Odin", "Cama king-size, vista al mar.", R.drawable.suiteodinroom),

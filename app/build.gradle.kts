@@ -41,6 +41,10 @@ android {
 
 dependencies {
 
+    // Accompanist pager
+    implementation("com.google.accompanist:accompanist-pager:0.31.0")
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
