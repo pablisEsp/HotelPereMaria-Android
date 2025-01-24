@@ -71,7 +71,14 @@ fun BottomAppBarCustom() {
                 selected = selectedItemIndex == index,
                 onClick = {
                     selectedItemIndex = index
-                    //(aqui va el navigate)
+                    /*
+                    when (index) {
+                        0 -> navController.navigate(AppScreens.BookRoomsScreen.route) // Search
+                        1 -> navController.navigate(AppScreens.homeScreen.route) // Home
+                        2 -> {
+                            // Si tienes una pantalla de usuario, agrégala aquí
+                        }
+                    */
                 },
                 label ={ Text(item.title) } ,
                 icon = {

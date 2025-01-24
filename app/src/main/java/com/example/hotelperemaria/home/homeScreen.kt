@@ -1,6 +1,7 @@
 package com.example.hotelperemaria.home
 
 import PantallaInicio
+import PantallaInicioConTutorial
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
-import com.example.hotelperemaria.home.model.Habitacion
+import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.utils.BottomAppBarCustom
 
 // Datos de ejemplo
@@ -34,6 +35,6 @@ val habitaciones = listOf(
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    PantallaInicio(habitaciones)
+    PantallaInicioConTutorial(habitaciones, navController)
 }
 

@@ -1,4 +1,4 @@
-package com.example.hotelperemaria.home.model
+package com.example.hotelperemaria.rooms.model
 
 class Habitacion(
     val id: Int,
