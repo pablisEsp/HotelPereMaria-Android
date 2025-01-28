@@ -1,12 +1,19 @@
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -15,22 +22,19 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,31 +49,25 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: NavController) {
+
     // Estado para controlar la visibilidad del tutorial
-    var showTutorial by rememberSaveable { mutableStateOf(true) }
     val totalPages = habitaciones.size + 1
     val pagerState = rememberPagerState(pageCount = { totalPages }) // Estado del HorizontalPager
 
-    // Detectar si el usuario deslizó hacia la derecha
-    if (showTutorial && pagerState.currentPage > 0) {
-        showTutorial = false // Ocultar el tutorial automáticamente si desliza
-    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Pantalla principal con el pager
         PantallaInicio(habitaciones = habitaciones, pagerState = pagerState, navController = navController)
-
-        // Mostrar el tutorial si está activo
-        TutorialDesliza(showTutorial = showTutorial) {
-            showTutorial = false // Ocultar el tutorial al tocar "Entendido"
-        }
     }
 }
 
 
-
 @Composable
-fun PantallaInicio(habitaciones: List<Habitacion>, pagerState: androidx.compose.foundation.pager.PagerState, navController: NavController) {
+fun PantallaInicio(
+    habitaciones: List<Habitacion>,
+    pagerState: androidx.compose.foundation.pager.PagerState,
+    navController: NavController
+) {
     val coroutineScope = rememberCoroutineScope()
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -102,30 +100,9 @@ fun PantallaInicio(habitaciones: List<Habitacion>, pagerState: androidx.compose.
             }
         }
 
-        // Texto para indicar "Desliza" en la primera página
+        // Textos animados para "Desliza para explorar" y "Desliza para reservar"
         if (pagerState.currentPage == 0) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 30.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward, // Flecha hacia la derecha
-                    contentDescription = "Desliza hacia la derecha",
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(bottom = 4.dp), // Espaciado entre flecha y texto
-                    tint = Color.White
-                )
-                Text(
-                    text = "Desliza para explorar",
-                    color = Color.White,
-                    fontSize = 16.sp
-                )
-            }
+
         }
 
         // Indicadores de página (dots)
@@ -169,17 +146,17 @@ fun PrimeraPagina() {
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp, top = 100.dp) // Reduce el espacio entre la imagen y el texto
+                .padding(bottom = 16.dp, top = 100.dp)
         )
 
         // Título y descripción
         Column(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Descubre la belleza nórdica",
+                textAlign = TextAlign.Center,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -190,12 +167,92 @@ fun PrimeraPagina() {
                 fontSize = 16.sp,
                 color = Color.White,
                 modifier = Modifier.padding(horizontal = 16.dp),
-                lineHeight = 20.sp,
+                lineHeight = 22.sp,
                 textAlign = TextAlign.Center
+            )
+        }
+
+
+        // Animaciones de deslizamiento
+        SlidingSwipeText(
+            text = "Desliza para reservar",
+            icon = Icons.AutoMirrored.Filled.ArrowForward,
+            alignment = Alignment.BottomStart, // Alineado a la izquierda
+            iconRotation = 180f // Flecha apuntando hacia la izquierda
+        )
+        SlidingSwipeText(
+            text = "Desliza para explorar",
+            icon = Icons.AutoMirrored.Filled.ArrowForward,
+            alignment = Alignment.BottomEnd, // Alineado a la derecha
+            iconRotation = 0f // Flecha apuntando hacia la derecha
+        )
+    }
+}
+
+@Composable
+fun SlidingSwipeText(
+    text: String,
+    icon: ImageVector,
+    alignment: Alignment,
+    iconRotation: Float // Rotación personalizada de la flecha
+) {
+    val infiniteTransition = rememberInfiniteTransition()
+
+    // Animar desplazamiento horizontal (izquierda a derecha)
+    val offsetX by infiniteTransition.animateFloat(
+        initialValue = -10f,
+        targetValue = 10f, // Moverse 10dp hacia ambos lados
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 800), // Ciclo de 800ms
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .offset(x = offsetX.dp) // Aplicar el desplazamiento horizontal animado
+            .padding(bottom = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = if (alignment == Alignment.BottomStart) Arrangement.Start else Arrangement.End
+    ) {
+        if (alignment == Alignment.BottomStart) {
+            // Flecha a la izquierda
+            Icon(
+                imageVector = icon,
+                contentDescription = "Flecha hacia la izquierda",
+                modifier = Modifier
+                    .size(24.dp)
+                    .graphicsLayer(rotationY = iconRotation) // Aplicar rotación a la flecha
+                    .padding(end = 8.dp), // Espacio entre la flecha y el texto
+                tint = Color.White
+            )
+            Text(
+                text = text,
+                color = Color.White,
+                fontSize = 12.sp
+            )
+        } else if (alignment == Alignment.BottomEnd) {
+            Text(
+                text = text,
+                color = Color.White,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(end = 8.dp) // Espacio entre texto y flecha
+            )
+            Icon(
+                imageVector = icon,
+                contentDescription = "Flecha hacia la derecha",
+                modifier = Modifier
+                    .size(24.dp)
+                    .graphicsLayer(rotationY = iconRotation) // Aplicar rotación a la flecha
+                    .padding(start = 8.dp), // Espacio entre texto y flecha
+                tint = Color.White
             )
         }
     }
 }
+
 
 @Composable
 fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
@@ -235,58 +292,6 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
                     text = "Ver Detalles",
                     color = Color.Black,
                     fontSize = 14.sp
-                )
-            }
-        }
-    }
-}
-
-
-
-@Composable
-fun TutorialDesliza(showTutorial: Boolean, onDismiss: () -> Unit) {
-    if (showTutorial) {
-        // Superficie oscura semitransparente
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.7f)) // Fondo oscuro con transparencia
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-                    .align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // Texto explicativo
-                Text(
-                    text = "Desliza hacia la derecha para explorar nuestras habitaciones",
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(16.dp)
-                )
-
-                // Flecha animada o estática
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = "Flecha para deslizar",
-                    tint = Color.White,
-                    modifier = Modifier
-                        .size(32.dp)
-                        .padding(top = 8.dp)
-                )
-
-                // Botón para cerrar el tutorial
-                Text(
-                    text = "Entendido",
-                    color = Color.Cyan,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .clickable { onDismiss() } // Dismiss el tutorial
                 )
             }
         }
