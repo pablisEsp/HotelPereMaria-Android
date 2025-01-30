@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hotelperemaria.home.habitaciones
 
+
 @Composable
 fun RoomScreen(roomId: Int?) {
     // Buscar la habitación en la lista de habitaciones
