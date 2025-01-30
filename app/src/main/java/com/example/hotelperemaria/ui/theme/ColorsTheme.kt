@@ -6,3 +6,6 @@ import androidx.compose.ui.graphics.Color
     val silver = Color(0xFFBCBCBC)//Silver
     val onix = Color(0xFF3C3C3C) //Onix
     val uranianBlue = Color(0xFFB0DAF1)
+    val white = Color(0xFFFFFFFF)
+    val darkGray = Color(0xFF5c5b5b)
+    val lightGray = Color(0xFF939191)

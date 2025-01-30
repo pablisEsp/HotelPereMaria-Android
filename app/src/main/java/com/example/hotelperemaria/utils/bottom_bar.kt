@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
-import com.example.hotelperemaria.ui.theme.ColorsTheme
+import com.example.hotelperemaria.ui.theme.whitesmoke
 
 data class BottomNavigationItem(
     val title: String,
@@ -64,7 +64,7 @@ fun BottomAppBarCustom() {
         modifier = Modifier
             .fillMaxWidth(),
         containerColor = Color.Black,
-        contentColor = ColorsTheme.whitesmoke,
+        contentColor = whitesmoke,
         ){
         items.fastForEachIndexed { index, item ->
             NavigationBarItem(

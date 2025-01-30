@@ -12,7 +12,7 @@ import com.example.hotelperemaria.search_room.screens.BookRoomsScreen
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppScreens.homeScreen.route) {
+    NavHost(navController = navController, startDestination = AppScreens.BookRoomsScreen.route) {
         composable(route = AppScreens.homeScreen.route) {
             HomeScreen(navController)
         }

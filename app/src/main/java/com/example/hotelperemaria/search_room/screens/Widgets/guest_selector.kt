@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -48,13 +49,15 @@ fun GuestSelector(
         ) {
             Icon(
                 imageVector = Icons.Default.Remove,
-                contentDescription = "Disminuir huÃ©spedes"
+                contentDescription = "Disminuir huespedes",
+                tint = Color(0xFF36454F),
             )
         }
 
         // Mostrar el nÃºmero de huÃ©spedes
         Text(
             text = "$guestCount",
+            color = Color(0xFF36454F),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
@@ -71,7 +74,9 @@ fun GuestSelector(
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Aumentar huÃ©spedes"
+                contentDescription = "Aumentar huÃ©spedes",
+                tint = Color(0xFF36454F),
+
             )
         }
     }
