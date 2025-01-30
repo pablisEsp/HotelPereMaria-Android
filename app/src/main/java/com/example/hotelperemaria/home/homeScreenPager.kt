@@ -45,7 +45,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
-import com.example.hotelperemaria.rooms.model.Habitacion
+import com.example.hotelperemaria.home.Habitacion
+//import com.example.hotelperemaria.rooms.model.Habitacion
 import kotlin.math.absoluteValue
 
 @Composable
