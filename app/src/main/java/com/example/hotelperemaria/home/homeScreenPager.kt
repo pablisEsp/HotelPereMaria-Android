@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
@@ -57,7 +58,11 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Pantalla principal con el pager
-        PantallaInicio(habitaciones = habitaciones, pagerState = pagerState, navController = navController)
+        PantallaInicio(
+            habitaciones = habitaciones,
+            pagerState = pagerState,
+            navController = navController
+        )
     }
 }
 
@@ -149,6 +154,8 @@ fun PrimeraPagina() {
                 .padding(bottom = 16.dp, top = 100.dp)
         )
 
+        Spacer(Modifier.height(16.dp))
+
         // Título y descripción
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -172,84 +179,116 @@ fun PrimeraPagina() {
             )
         }
 
-
+        Spacer(Modifier.height(140.dp))
         // Animaciones de deslizamiento
-        SlidingSwipeText(
-            text = "Desliza para reservar",
-            icon = Icons.AutoMirrored.Filled.ArrowForward,
-            alignment = Alignment.BottomStart, // Alineado a la izquierda
-            iconRotation = 180f // Flecha apuntando hacia la izquierda
-        )
-        SlidingSwipeText(
-            text = "Desliza para explorar",
-            icon = Icons.AutoMirrored.Filled.ArrowForward,
-            alignment = Alignment.BottomEnd, // Alineado a la derecha
-            iconRotation = 0f // Flecha apuntando hacia la derecha
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            SlidingTextToLeft(
+                text = "Desliza para reservar",
+                icon = Icons.AutoMirrored.Filled.ArrowForward
+            )
+            SlidingTextToRight(
+                text = "Desliza para explorar",
+                icon = Icons.AutoMirrored.Filled.ArrowForward
+            )
+        }
+
     }
 }
 
 @Composable
-fun SlidingSwipeText(
+fun SlidingTextToLeft(
     text: String,
-    icon: ImageVector,
-    alignment: Alignment,
-    iconRotation: Float // Rotación personalizada de la flecha
+    icon: ImageVector
 ) {
     val infiniteTransition = rememberInfiniteTransition()
 
-    // Animar desplazamiento horizontal (izquierda a derecha)
+    // Animar desplazamiento hacia la izquierda
     val offsetX by infiniteTransition.animateFloat(
-        initialValue = -10f,
-        targetValue = 10f, // Moverse 10dp hacia ambos lados
+        initialValue = 0f,
+        targetValue = -25f, // Moverse 30dp hacia la izquierda
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 800), // Ciclo de 800ms
+            animation = tween(durationMillis = 1000), // Ciclo de 800ms
             repeatMode = RepeatMode.Reverse
         )
     )
 
     Row(
         modifier = Modifier
-            .fillMaxWidth()
+            .wrapContentWidth()
             .wrapContentHeight()
-            .offset(x = offsetX.dp) // Aplicar el desplazamiento horizontal animado
-            .padding(bottom = 16.dp),
+            .offset(x = offsetX.dp) // Aplicar desplazamiento a la izquierda
+            .padding(end = 16.dp), // Espacio con el centro
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = if (alignment == Alignment.BottomStart) Arrangement.Start else Arrangement.End
+        horizontalArrangement = Arrangement.Start,
+
     ) {
-        if (alignment == Alignment.BottomStart) {
-            // Flecha a la izquierda
-            Icon(
-                imageVector = icon,
-                contentDescription = "Flecha hacia la izquierda",
-                modifier = Modifier
-                    .size(24.dp)
-                    .graphicsLayer(rotationY = iconRotation) // Aplicar rotación a la flecha
-                    .padding(end = 8.dp), // Espacio entre la flecha y el texto
-                tint = Color.White
-            )
-            Text(
-                text = text,
-                color = Color.White,
-                fontSize = 12.sp
-            )
-        } else if (alignment == Alignment.BottomEnd) {
-            Text(
-                text = text,
-                color = Color.White,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(end = 8.dp) // Espacio entre texto y flecha
-            )
-            Icon(
-                imageVector = icon,
-                contentDescription = "Flecha hacia la derecha",
-                modifier = Modifier
-                    .size(24.dp)
-                    .graphicsLayer(rotationY = iconRotation) // Aplicar rotación a la flecha
-                    .padding(start = 8.dp), // Espacio entre texto y flecha
-                tint = Color.White
-            )
-        }
+        // Flecha hacia la izquierda
+        Icon(
+            imageVector = icon,
+            contentDescription = "Flecha hacia la izquierda",
+            modifier = Modifier
+                .size(24.dp)
+                .graphicsLayer(rotationY = 180f) // Rotar la flecha para que apunte hacia la izquierda
+                .padding(start = 8.dp), // Espacio entre la flecha y el texto
+            tint = Color.White
+        )
+        Text(
+            text = text,
+            color = Color.White,
+            fontSize = 12.sp
+        )
+    }
+}
+
+@Composable
+fun SlidingTextToRight(
+    text: String,
+    icon: ImageVector
+) {
+    val infiniteTransition = rememberInfiniteTransition()
+
+    // Animar desplazamiento hacia la derecha
+    val offsetX by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 25f, // Moverse 30dp hacia la derecha
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1000), // Ciclo de 800ms
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    Row(
+        modifier = Modifier
+            .wrapContentWidth()
+            .wrapContentHeight()
+            .offset(x = offsetX.dp) // Aplicar desplazamiento a la derecha
+            .padding(start = 16.dp), // Espacio con el centro
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.End
+    ) {
+        Text(
+            text = text,
+            color = Color.White,
+            fontSize = 12.sp,
+            modifier = Modifier.padding(end = 8.dp), // Espacio entre texto y flecha
+
+        )
+        // Flecha hacia la derecha
+        Icon(
+            imageVector = icon,
+            contentDescription = "Flecha hacia la derecha",
+            modifier = Modifier
+                .size(24.dp)
+                .graphicsLayer(rotationY = 0f), // Flecha apuntando hacia la derecha
+
+            tint = Color.White
+        )
     }
 }
 
