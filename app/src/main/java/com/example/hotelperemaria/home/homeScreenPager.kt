@@ -261,7 +261,7 @@ fun SlidingTextToRight(
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1000), // Ciclo de 800ms
             repeatMode = RepeatMode.Reverse
-        ), label = ""
+        )
     )
 
     Row(
