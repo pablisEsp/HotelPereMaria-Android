@@ -100,8 +100,17 @@ fun PantallaInicio(
                 if (page == 0) {
                     PrimeraPagina()
                 } else {
-                    val habitacion = habitaciones[page - 1]
-                    HabitacionPage(habitacion = habitacion, navController = navController)
+                    // ✅ Previene error de índice si `habitaciones` está vacío
+                    if (habitaciones.isNotEmpty() && page - 1 < habitaciones.size) {
+                        val habitacion = habitaciones[page - 1]
+                        HabitacionPage(habitacion = habitacion, navController = navController)
+                    } else {
+                        Text(
+                            text = "Cargando habitaciones...",
+                            modifier = Modifier.fillMaxSize(),
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }
@@ -292,10 +301,13 @@ fun SlidingTextToRight(
 @Composable
 fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
-        // 📌 Cargar imagen de fondo desde URL usando Coil
+        val imagenUrl = habitacion.imagenes.firstOrNull()?.takeIf { it.isNotBlank() }
+            ?: "https://i.ibb.co/qYD28ySQ/standard-Room-twin.png" // ✅ Imagen por defecto
+
+        // 📌 Cargar imagen de fondo usando Coil
         AsyncImage(
-            model = habitacion.imagenes.firstOrNull() ?: "", // Evita errores si la lista está vacía
-            contentDescription = "Imagen de fondo de la habitación",
+            model = imagenUrl,
+            contentDescription = "Imagen de la habitación",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )

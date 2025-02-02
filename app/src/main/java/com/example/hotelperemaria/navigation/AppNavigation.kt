@@ -1,6 +1,8 @@
 package com.example.hotelperemaria.navigation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,14 +28,18 @@ fun AppNavigation() {
         }
 
 
-
         // Ruta para la pantalla de detalles de la habitación
         composable(
             route = "room_screen/{roomId}",
-            arguments = listOf(navArgument("roomId") { type = NavType.StringType })
+            arguments = listOf(navArgument("roomId") { type = NavType.StringType }) // ✅ Cambiado a StringType
         ) { backStackEntry ->
-            val roomId = backStackEntry.arguments?.getString("codigo")
-            RoomDetailScreen(roomId!!, navController)
+            val roomId = backStackEntry.arguments?.getString("roomId") // ✅ Asegurar que es un String
+
+            if (roomId != null) {
+                RoomDetailScreen(roomId, navController) // ✅ Evita que se pase null
+            } else {
+                Text("Error: Código de habitación no encontrado", color = Color.Red)
+            }
         }
 
 
