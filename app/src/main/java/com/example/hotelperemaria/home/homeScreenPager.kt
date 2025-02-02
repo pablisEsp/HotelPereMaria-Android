@@ -22,6 +22,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -105,10 +106,6 @@ fun PantallaInicio(
             }
         }
 
-        // Textos animados para "Desliza para explorar" y "Desliza para reservar"
-        if (pagerState.currentPage == 0) {
-
-        }
 
         // Indicadores de página (dots)
         Row(
@@ -211,7 +208,7 @@ fun SlidingTextToLeft(
     // Animar desplazamiento hacia la izquierda
     val offsetX by infiniteTransition.animateFloat(
         initialValue = 0f,
-        targetValue = -25f, // Moverse 30dp hacia la izquierda
+        targetValue = -24f, // Moverse 30dp hacia la izquierda
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1000), // Ciclo de 800ms
             repeatMode = RepeatMode.Reverse
@@ -235,7 +232,7 @@ fun SlidingTextToLeft(
             modifier = Modifier
                 .size(24.dp)
                 .graphicsLayer(rotationY = 180f) // Rotar la flecha para que apunte hacia la izquierda
-                .padding(start = 8.dp), // Espacio entre la flecha y el texto
+                .padding(start = 6.dp), // Espacio entre la flecha y el texto
             tint = Color.White
         )
         Text(
@@ -298,7 +295,7 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         // Imagen de fondo
         Image(
-            painter = painterResource(id = habitacion.imagen),
+            painter = painterResource(id = habitacion.imagenes.first()),
             contentDescription = "Imagen de fondo de la habitación",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -321,7 +318,7 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
             TextButton(
                 onClick = {
                     // Navegar a la pantalla de detalles con el ID de la habitación
-                    navController.navigate("room_screen/${habitacion.id}")
+                    navController.navigate("room_screen/${habitacion.codigo}")
                 },
                 modifier = Modifier
                     .background(Color.White, shape = CircleShape)

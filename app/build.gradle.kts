@@ -62,6 +62,9 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.material.icons.extended)//para tener mas iconos
 
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
 
 }
