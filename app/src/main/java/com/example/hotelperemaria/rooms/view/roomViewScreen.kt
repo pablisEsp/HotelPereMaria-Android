@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.model.Servicio
 import com.example.hotelperemaria.rooms.model.getPainterFromName
@@ -41,7 +42,7 @@ import com.example.hotelperemaria.rooms.model.mapServicios
 import com.example.hotelperemaria.rooms.viewmodel.RoomViewModel
 
 @Composable
-fun RoomDetailScreen(idHabitacion: Int, navController: NavController) {
+fun RoomDetailScreen(idHabitacion: String, navController: NavController) {
     val roomViewModel: RoomViewModel = viewModel()
 
     val habitacion by roomViewModel.habitacion.collectAsState()
@@ -115,9 +116,8 @@ fun RoomDetailScreen(idHabitacion: Int, navController: NavController) {
     }
 }
 
-
 @Composable
-fun ImageCarousel(images: List<Int>) {
+fun ImageCarousel(images: List<String>) {
     val pagerState = rememberPagerState(pageCount = { images.size })
 
     HorizontalPager(
@@ -126,8 +126,8 @@ fun ImageCarousel(images: List<Int>) {
             .fillMaxWidth()
             .height(250.dp)
     ) { page ->
-        Image(
-            painter = painterResource(id = images[page]),
+        AsyncImage(
+            model = images[page],  // Carga la imagen desde la URL
             contentDescription = "Imagen de la habitación",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()

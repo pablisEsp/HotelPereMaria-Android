@@ -7,8 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.hotelperemaria.home.HomeScreen
-import com.example.hotelperemaria.navigation.AppScreens
-import com.example.hotelperemaria.rooms.view.RoomScreen
+import com.example.hotelperemaria.rooms.view.RoomDetailScreen
 import com.example.hotelperemaria.search_room.screens.BookRoomsScreen
 
 @Composable
@@ -31,10 +30,10 @@ fun AppNavigation() {
         // Ruta para la pantalla de detalles de la habitación
         composable(
             route = "room_screen/{roomId}",
-            arguments = listOf(navArgument("roomId") { type = NavType.IntType })
+            arguments = listOf(navArgument("roomId") { type = NavType.StringType })
         ) { backStackEntry ->
-            val roomId = backStackEntry.arguments?.getInt("roomId")
-            RoomScreen(roomId)
+            val roomId = backStackEntry.arguments?.getString("codigo")
+            RoomDetailScreen(roomId!!, navController)
         }
 
 

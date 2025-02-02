@@ -22,7 +22,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -45,9 +44,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.hotelperemaria.R
-import com.example.hotelperemaria.home.Habitacion
-//import com.example.hotelperemaria.rooms.model.Habitacion
+import com.example.hotelperemaria.rooms.model.Habitacion
 import kotlin.math.absoluteValue
 
 @Composable
@@ -290,19 +289,18 @@ fun SlidingTextToRight(
     }
 }
 
-
 @Composable
 fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
-        // Imagen de fondo
-        Image(
-            painter = painterResource(id = habitacion.imagenes.first()),
+        // 📌 Cargar imagen de fondo desde URL usando Coil
+        AsyncImage(
+            model = habitacion.imagenes.firstOrNull() ?: "", // Evita errores si la lista está vacía
             contentDescription = "Imagen de fondo de la habitación",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 
-        // Nombre de la habitación y botón
+        // 📌 Nombre de la habitación y botón
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -318,7 +316,7 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
             )
             TextButton(
                 onClick = {
-                    // Navegar a la pantalla de detalles con el ID de la habitación
+                    // 📌 Navegar a la pantalla de detalles con el código de la habitación
                     navController.navigate("room_screen/${habitacion.codigo}")
                 },
                 modifier = Modifier

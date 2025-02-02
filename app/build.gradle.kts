@@ -57,14 +57,18 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //implementations extra
+    //---------------EXTRA IMPLEMENTATIONS---------------------
+
     implementation(libs.androidx.navigation.compose)
     implementation(libs.coil.compose)
     implementation(libs.androidx.material.icons.extended)//para tener mas iconos
 
     //Retrofit
     implementation(libs.retrofit)
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.converter.gson)
+
+    //COIL
+    implementation(libs.coil.kt.coil.compose)
 
 
 }

@@ -40,15 +40,17 @@ fun mapServicios(serviciosString: List<String>): List<Servicio> {
         "TV" to "television",
         "Bar" to "bar",
         "Piscina" to "swimmingpool",
-        "Gimnasio" to "gym",
+        "GYM" to "gym",
         "Spa" to "spa_black",
-        "Premium Room Service" to "premiumroomservice",
+        "Servicio Premium de Habitaciones" to "premiumroomservice",
         "Oficina" to "office",
         "Cocina" to "kitchen",
-        "Fridge" to "fridge",
-        "CoffeMaker" to "coffemaker",
-        "Billiard" to "billiard",
-        "Balcony" to "balcony"
+        "Nevera" to "fridge",
+        "Cafetera" to "coffemaker",
+        "Mesa de Billar" to "billiard",
+        "Balcón" to "balcony",
+        "Plancha" to "iron",
+        "Minibar" to "minibar"
     )
 
     return serviciosString.mapNotNull { nombre ->
@@ -78,7 +80,11 @@ fun getPainterFromName(iconoName: String): Painter {
         "coffemaker" -> R.drawable.coffemaker
         "billiard" -> R.drawable.billiard
         "balcony" -> R.drawable.balcony
-        else -> R.drawable.ic_default  // Un ícono por defecto
+        "iron" -> R.drawable.iron
+        "miniBar" -> R.drawable.minibar
+
+        //default icon
+        else -> R.drawable.ic_default
     }
 
     return painterResource(id = resourceId)
