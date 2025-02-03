@@ -44,7 +44,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
+
 import com.example.hotelperemaria.R
 import com.example.hotelperemaria.rooms.model.Habitacion
 import kotlin.math.absoluteValue
