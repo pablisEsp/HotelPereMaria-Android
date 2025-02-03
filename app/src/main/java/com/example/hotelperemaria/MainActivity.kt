@@ -15,7 +15,7 @@ import com.example.hotelperemaria.ui.theme.HotelPereMariaTheme
         enableEdgeToEdge()
         setContent {
             HotelPereMariaTheme {
-                AppNavigation()
+                AppNavigation() //pr
             }
         }
     }
