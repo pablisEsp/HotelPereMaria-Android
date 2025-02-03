@@ -59,7 +59,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    //implementations extra
+    //---------------EXTRA IMPLEMENTATIONS---------------------
+
     implementation(libs.androidx.navigation.compose)
     implementation(libs.coil.compose)
     implementation(libs.androidx.material.icons.extended)//para tener mas iconos
@@ -68,6 +69,12 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.49")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    //COIL
+    implementation(libs.coil.kt.coil.compose)
 
 
 }
