@@ -74,7 +74,7 @@ fun GuestSelector(
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Aumentar huÃ©spedes",
+                contentDescription = "Aumentar huespedes",
                 tint = Color(0xFF36454F),
 
             )

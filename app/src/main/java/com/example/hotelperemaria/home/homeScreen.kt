@@ -23,7 +23,7 @@ import com.example.hotelperemaria.utils.BottomAppBarCustom
 // Datos de ejemplo
 data class Habitacion(val id: Int, val nombre: String, val descripcion: String, val imagen: Int)
 
-val habitacioness = listOf(
+val habitaciones = listOf(
     Habitacion(1, "Suite Odin", "Cama king-size, vista al mar.", R.drawable.suiteodinroom),
     Habitacion(2, "Junior Suite", "Cama doble, vista a la ciudad.", R.drawable.juniorsuite),
     Habitacion(3, "Habitación Premium", "Cama king-size, jacuzzi privado.", R.drawable.premiumroom),
@@ -34,6 +34,6 @@ val habitacioness = listOf(
 
 @Composable
 fun HomeScreen(navController: NavController) {
-    PantallaInicioConTutorial(habitacioness, navController)
+    PantallaInicioConTutorial(habitaciones, navController)
 }
 

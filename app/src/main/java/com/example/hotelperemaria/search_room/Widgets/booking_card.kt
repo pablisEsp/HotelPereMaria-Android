@@ -1,4 +1,4 @@
-package com.example.hotelperemaria.search_room.screens.Widgets
+package com.example.hotelperemaria.search_room.Widgets
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -19,7 +19,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hotelperemaria.R
 import com.example.hotelperemaria.home.Habitacion
 import com.example.hotelperemaria.ui.theme.darkGray
 import com.example.hotelperemaria.ui.theme.lightGray
@@ -41,7 +40,7 @@ fun HotelReservationCard(habitacion: Habitacion?) {
     ) {
         Column {
             Image(
-                painter = painterResource(id = R.drawable.premiumroom), // Reemplaza con tu imagen
+                painter = painterResource(id = habitacion!!.imagen), // Reemplaza con tu imagen
                 contentDescription = "Suit Room",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -53,7 +52,7 @@ fun HotelReservationCard(habitacion: Habitacion?) {
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = "Suit Room",
+                    text = habitacion.nombre,
                     style = MaterialTheme.typography.titleMedium,
                     color = white
                 )
@@ -61,7 +60,7 @@ fun HotelReservationCard(habitacion: Habitacion?) {
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = "La mejor de nuestras habitaciones",
+                    text = habitacion!!.descripcion,
                     style = MaterialTheme.typography.bodyMedium,
                     color = silver
                 )

@@ -1,4 +1,4 @@
-package com.example.hotelperemaria.search_room.screens.widgets
+package com.example.hotelperemaria.search_room.views.widgets
 
 import android.icu.text.SimpleDateFormat
 import androidx.compose.foundation.layout.Arrangement
@@ -28,11 +28,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hotelperemaria.ui.theme.HotelPereMariaTheme
 import com.example.hotelperemaria.ui.theme.darkGray
 import com.example.hotelperemaria.ui.theme.lightGray
 import com.example.hotelperemaria.ui.theme.white
@@ -43,23 +40,18 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DatePickerDialogCustom(modifier: Modifier) {
+fun DatePickerDialogCustom(modifier: Modifier,
+                           initialDate: String,
+                           onDateSelected: (String) -> Unit,
+                           isStartDate: Boolean ) {
 
     val datePickerState = rememberDatePickerState()
     var showDatePicker by remember {
         mutableStateOf(false)
     }
     var selectedDate by remember {
-        mutableStateOf("")
+        mutableStateOf(initialDate)
     }
-//in the future change the modifier
-    val gradientBrush = Brush.linearGradient(
-        colors = listOf(
-            Color(0xFF4D97A2), // Azul oscuro
-            Color(0xFF78C6D2)  // Azul más claro
-        )
-    )
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -73,7 +65,7 @@ fun DatePickerDialogCustom(modifier: Modifier) {
                 unfocusedTextColor = white,
                 disabledTextColor = white,
                 errorTextColor = Color.Red, // Magenta
-                focusedContainerColor =  lightGray.copy(alpha = 0.8f), // Naranja coral oscuro
+                focusedContainerColor = lightGray.copy(alpha = 0.8f), // Naranja coral oscuro
                 unfocusedContainerColor = darkGray.copy(alpha = 0.8f), // Azul oscuro
                 errorContainerColor = Color.Magenta,
                 cursorColor = white,
@@ -136,7 +128,13 @@ fun DatePickerDialogCustom(modifier: Modifier) {
         if (showDatePicker) {
             DatePickerModal(
                 datePickerState = datePickerState,
-                onDateSelected = { it?.let { selectedDate = convertMillisToDate(it) } }) {
+                onDateSelected = { millis ->
+                    millis?.let {
+                        val formatedDate = convertMillisToDate(it)
+                        selectedDate = formatedDate
+                        onDateSelected(formatedDate)
+                    }
+                }) {
                 showDatePicker = false
             }
         }
@@ -165,12 +163,12 @@ fun DatePickerModal(
                 onDateSelected(datePickerState.selectedDateMillis)
                 onDismiss()
             }) {
-                Text("OK", color = Color(0xFF1d393d))
+                Text("OK", color = white)
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel", color = Color(0xFF1d393d))
+                Text("Cancel", color = white)
             }
         },
         colors = DatePickerDefaults.colors(
@@ -199,10 +197,3 @@ fun DatePickerModal(
 }
 
 
-@Composable
-@Preview
-fun DatePickerDialogCustomPreview() {
-    HotelPereMariaTheme {
-        DatePickerDialogCustom(modifier = Modifier)
-    }
-}

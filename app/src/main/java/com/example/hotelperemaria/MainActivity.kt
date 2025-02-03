@@ -1,4 +1,4 @@
-   package com.example.hotelperemaria
+package com.example.hotelperemaria
 
 
 import com.example.hotelperemaria.navigation.AppNavigation
@@ -8,8 +8,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.example.hotelperemaria.navigation.AppNavigation
 import com.example.hotelperemaria.ui.theme.HotelPereMariaTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-   class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

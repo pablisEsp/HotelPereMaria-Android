@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -46,7 +47,7 @@ import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
 import com.example.hotelperemaria.home.Habitacion
-//import com.example.hotelperemaria.rooms.model.Habitacion
+
 import kotlin.math.absoluteValue
 
 @Composable
@@ -54,7 +55,7 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
 
     // Estado para controlar la visibilidad del tutorial
     val totalPages = habitaciones.size + 1
-    val pagerState = rememberPagerState(pageCount = { totalPages }) // Estado del HorizontalPager
+    val pagerState = rememberPagerState(initialPage = 1, pageCount = { totalPages }) // Estado del HorizontalPager
 
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -63,6 +64,7 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
             habitaciones = habitaciones,
             pagerState = pagerState,
             navController = navController
+
         )
     }
 }
@@ -71,7 +73,7 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
 @Composable
 fun PantallaInicio(
     habitaciones: List<Habitacion>,
-    pagerState: androidx.compose.foundation.pager.PagerState,
+    pagerState: PagerState,
     navController: NavController
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -79,7 +81,8 @@ fun PantallaInicio(
     Box(modifier = Modifier.fillMaxSize()) {
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+
         ) { page ->
             Card(
                 Modifier
@@ -98,8 +101,12 @@ fun PantallaInicio(
                     }
             ) {
                 if (page == 0) {
+                    BookRoomsScreen(navController)
+                }else if(page == 1){
                     PrimeraPagina()
-                } else {
+
+                }
+                else {
                     val habitacion = habitaciones[page - 1]
                     HabitacionPage(habitacion = habitacion, navController = navController)
                 }

@@ -13,6 +13,7 @@ composeBom = "2024.04.01"
 materialIconsExtended = "<version>"
 navigationCompose = "2.8.5"
 
+
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
