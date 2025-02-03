@@ -44,9 +44,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.hotelperemaria.R
-import com.example.hotelperemaria.home.Habitacion
-//import com.example.hotelperemaria.rooms.model.Habitacion
+import com.example.hotelperemaria.rooms.model.Habitacion
 import kotlin.math.absoluteValue
 
 @Composable
@@ -54,7 +54,7 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
 
     // Estado para controlar la visibilidad del tutorial
     val totalPages = habitaciones.size + 1
-    val pagerState = rememberPagerState(pageCount = { totalPages }) // Estado del HorizontalPager
+    val pagerState = rememberPagerState(pageCount = { totalPages })
 
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -100,16 +100,22 @@ fun PantallaInicio(
                 if (page == 0) {
                     PrimeraPagina()
                 } else {
-                    val habitacion = habitaciones[page - 1]
-                    HabitacionPage(habitacion = habitacion, navController = navController)
+                    // ✅ Previene error de índice si `habitaciones` está vacío
+                    if (habitaciones.isNotEmpty() && page - 1 < habitaciones.size) {
+                        val habitacion = habitaciones[page - 1]
+                        //println("Habitación: $habitacion")
+                        HabitacionPage(habitacion = habitacion, navController = navController)
+                    } else {
+                        Text(
+                            text = "Cargando habitaciones...",
+                            modifier = Modifier.fillMaxSize(),
+                            color = Color.White
+                        )
+                    }
                 }
             }
         }
 
-        // Textos animados para "Desliza para explorar" y "Desliza para reservar"
-        if (pagerState.currentPage == 0) {
-
-        }
 
         // Indicadores de página (dots)
         Row(
@@ -212,7 +218,7 @@ fun SlidingTextToLeft(
     // Animar desplazamiento hacia la izquierda
     val offsetX by infiniteTransition.animateFloat(
         initialValue = 0f,
-        targetValue = -25f, // Moverse 30dp hacia la izquierda
+        targetValue = -24f, // Moverse 30dp hacia la izquierda
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1000), // Ciclo de 800ms
             repeatMode = RepeatMode.Reverse
@@ -236,7 +242,7 @@ fun SlidingTextToLeft(
             modifier = Modifier
                 .size(24.dp)
                 .graphicsLayer(rotationY = 180f) // Rotar la flecha para que apunte hacia la izquierda
-                .padding(start = 8.dp), // Espacio entre la flecha y el texto
+                .padding(start = 6.dp), // Espacio entre la flecha y el texto
             tint = Color.White
         )
         Text(
@@ -293,19 +299,22 @@ fun SlidingTextToRight(
     }
 }
 
-
 @Composable
 fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
-        // Imagen de fondo
-        Image(
-            painter = painterResource(id = habitacion.imagen),
-            contentDescription = "Imagen de fondo de la habitación",
+
+        val imagenUrl = habitacion.imagenes?.firstOrNull()?.takeIf { it.isNotBlank() }
+            ?: "https://i.ibb.co/qYD28ySQ/standard-Room-twin.png" // ✅ Imagen por defecto
+
+        // 📌 Cargar imagen de fondo usando Coil
+        AsyncImage(
+            model = imagenUrl,
+            contentDescription = "Imagen de la habitación",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 
-        // Nombre de la habitación y botón
+        // 📌 Nombre de la habitación y botón
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -313,7 +322,7 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = habitacion.nombre,
+                text = habitacion.categoria,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -321,8 +330,8 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
             )
             TextButton(
                 onClick = {
-                    // Navegar a la pantalla de detalles con el ID de la habitación
-                    navController.navigate("room_screen/${habitacion.id}")
+                    // 📌 Navegar a la pantalla de detalles con el código de la habitación
+                    navController.navigate("room_screen/${habitacion.codigo}")
                 },
                 modifier = Modifier
                     .background(Color.White, shape = CircleShape)
