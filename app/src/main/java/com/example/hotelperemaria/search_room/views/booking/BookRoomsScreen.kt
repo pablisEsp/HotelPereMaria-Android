@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -6,9 +7,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -18,17 +23,24 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
 import com.example.hotelperemaria.navigation.AppScreens
+import com.example.hotelperemaria.search_room.Widgets.SnackbarCustom
 import com.example.hotelperemaria.search_room.views.booking.BookRoomEvent
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 import com.example.hotelperemaria.search_room.views.widgets.DatePickerDialogCustom
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BookRoomsScreen(
     navController: NavController,
     viewModel: BookRoomViewModel = hiltViewModel(),
 ) {
     val bookRoomState by viewModel.bookRoomState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
+    Scaffold(
+
+    snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -58,7 +70,7 @@ fun BookRoomsScreen(
                 onDateSelected = {
                     viewModel.onEvent(BookRoomEvent.AddStartDate(it))
                 },
-                isStartDate = true
+
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -66,11 +78,10 @@ fun BookRoomsScreen(
             // End Date Picker
             DatePickerDialogCustom(
                 modifier = Modifier,
-                initialDate = bookRoomState.startDate,
+                initialDate = bookRoomState.endDate,
                 onDateSelected = {
                     viewModel.onEvent(BookRoomEvent.AddEndDate(it))
                 },
-                isStartDate = false
             )
 
 
@@ -92,12 +103,16 @@ fun BookRoomsScreen(
 
             ButtonCustom(onClick = {
                 viewModel.onEvent(BookRoomEvent.SearchRooms)
-                navController.navigate(AppScreens.choseRoomScreen.route)
+               // navController.navigate(AppScreens.choseRoomScreen.route)
             })
+
+            SnackbarCustom(
+                isShown = bookRoomState.snackBarIsShown,
+                message = bookRoomState.snackBarMessage,
+                hideSnackBar = { viewModel.onEvent(BookRoomEvent.HideSnackBar(bookRoomState.snackBarIsShown)) },
+                snackbarHostState = snackbarHostState
+            )
         }
     }
 }
-// Ejemplo de función para mostrar un mensaje de error
-fun showSnackbar(message: String) {
-    // Implementa aquí la lógica para mostrar un Snackbar o Toast
 }

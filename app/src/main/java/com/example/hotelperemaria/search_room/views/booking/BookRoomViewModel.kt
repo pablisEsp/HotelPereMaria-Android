@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,20 +25,10 @@ class BookRoomViewModel @Inject constructor(
     fun onEvent(event: BookRoomEvent) {
         when (event) {
             is BookRoomEvent.AddStartDate -> {
-                Log.d("BookRoomViewModel", "Validating start date: ${event.value}")
-                if (isValidStartDate(event.value)) {
                     updateState { it.copy(startDate = event.value) }
-                } else {
-                    emitError("Start date must be today or later")
-                }
             }
             is BookRoomEvent.AddEndDate -> {
-                Log.d("BookRoomViewModel", "Validating end date: ${event.value}")
-                if (isValidEndDate(event.value)) {
                     updateState { it.copy(endDate = event.value) }
-                } else {
-                    emitError("End date must be after start date")
-                }
             }
 
             is BookRoomEvent.AddMoreGuest -> {
@@ -54,24 +45,32 @@ class BookRoomViewModel @Inject constructor(
                 }
             }
 
-            is BookRoomEvent.SelectDate -> {
-                if (isValidStartDate(event.value)) {
-                    updateState { it.copy(startDate = event.value) }
-                }
-            }
-
             is BookRoomEvent.SearchRooms -> {
-                // Perform search logic here (e.g., navigate to another screen or trigger API call)
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val startDate = LocalDate.parse(_bookRoomState.value.startDate,formatter)
+                val endDate = LocalDate.parse(_bookRoomState.value.endDate,formatter)
+                if (startDate.isBefore(LocalDate.now())){
+                    updateState { it.copy(snackBarMessage = "Has introducido una fecha anterior al dia de hoy", snackBarIsShown = true) }
+                }
+                if (startDate.isAfter(endDate)){
+                    updateState { it.copy(snackBarMessage = "Has seleccionado una fecha de salida anterior a la fecha de entrada", snackBarIsShown = true) }
+                }
                 viewModelScope.launch {
                     // Example: Trigger navigation or API call
                 }
             }
+
+            is BookRoomEvent.ShowSnackBar -> {
+                updateState { it.copy(snackBarIsShown = true)
+                        it.copy(snackBarMessage = event.value)}
+            }
+            is BookRoomEvent.HideSnackBar ->{
+                updateState { it.copy(snackBarIsShown = !event.value) }
+            }
         }
     }
 
-    private fun emitError(s: String) {
 
-    }
 
     // Helper function to update the state safely
     private fun updateState(update: (BookRoomState) -> BookRoomState) {
@@ -79,33 +78,20 @@ class BookRoomViewModel @Inject constructor(
         _bookRoomState.value = update(currentState)
     }
 
-    // Validation functions
-    private fun isValidStartDate(selectedDate: String): Boolean {
-        return try {
-            val today = LocalDate.now()
-            val selected = LocalDate.parse(selectedDate)
-            selected.isEqual(today) || selected.isAfter(today)
-        } catch (e: Exception) {
-            false // Invalid date format
-        }
-    }
-
-    private fun isValidEndDate(selectedDate: String): Boolean {
-        return try {
-            val currentStartDate = LocalDate.parse(bookRoomState.value.startDate)
-            val selected = LocalDate.parse(selectedDate)
-            selected.isAfter(currentStartDate)
-        } catch (e: Exception) {
-            false // Invalid date format
-        }
-    }
 
     init {
         // Initialize default values
         _bookRoomState.value = BookRoomState(
-            startDate = LocalDate.now().toString(),
-            endDate = LocalDate.now().plusDays(1).toString(), // Default end date is tomorrow
-            numberOfGuests = 1
+            startDate = formateador(LocalDate.now()),
+            endDate = formateador(LocalDate.now().plusDays(2)), // Default end date is tomorrow
+            numberOfGuests = 1,
+            snackBarIsShown = false,
+            snackBarMessage = "This is an example text"
         )
     }
+}
+
+fun formateador(localDate: LocalDate):String{
+    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    return localDate.format(formatter)
 }

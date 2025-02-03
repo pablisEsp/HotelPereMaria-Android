@@ -43,7 +43,7 @@ import java.util.Locale
 fun DatePickerDialogCustom(modifier: Modifier,
                            initialDate: String,
                            onDateSelected: (String) -> Unit,
-                           isStartDate: Boolean ) {
+                         ) {
 
     val datePickerState = rememberDatePickerState()
     var showDatePicker by remember {
@@ -142,7 +142,7 @@ fun DatePickerDialogCustom(modifier: Modifier,
 }
 
 fun convertMillisToDate(millis: Long): String {
-    val formatter = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
     return formatter.format(Date(millis))
 }
 
