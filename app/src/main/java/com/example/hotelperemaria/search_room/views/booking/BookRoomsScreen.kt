@@ -22,8 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
-import com.example.hotelperemaria.navigation.AppScreens
-import com.example.hotelperemaria.search_room.Widgets.SnackbarCustom
 import com.example.hotelperemaria.search_room.views.booking.BookRoomEvent
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 import com.example.hotelperemaria.search_room.views.widgets.DatePickerDialogCustom
@@ -38,81 +36,83 @@ fun BookRoomsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
-
-    snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-// Fondo de pantalla
-        Image(
-            painter = painterResource(id = R.drawable.fondoreservas),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { _ -> // Ignoramos el padding porque ya no lo usamos
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
+            // Fondo de pantalla
             Image(
-                painter = painterResource(R.drawable.asgard_easter_egg_dorado),
-                contentDescription = null
-            )
-            // Start Date Picker
-
-            DatePickerDialogCustom(
-                modifier = Modifier,
-                initialDate = bookRoomState.startDate,
-                onDateSelected = {
-                    viewModel.onEvent(BookRoomEvent.AddStartDate(it))
-                },
-
+                painter = painterResource(id = R.drawable.fondoreservas),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            // Contenido encima del fondo
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp), // Puedes eliminarlo si quieres
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Logo o imagen visible
+                Image(
+                    painter = painterResource(R.drawable.asgard_easter_egg_dorado),
+                    contentDescription = "Logo"
+                )
 
-            // End Date Picker
-            DatePickerDialogCustom(
-                modifier = Modifier,
-                initialDate = bookRoomState.endDate,
-                onDateSelected = {
-                    viewModel.onEvent(BookRoomEvent.AddEndDate(it))
-                },
-            )
+                Spacer(modifier = Modifier.height(16.dp))
 
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Guest Selector
-            GuestSelector(
-                modifier = Modifier.fillMaxWidth(),
-                onGuestCountChanged = { count ->
-                    if (count > bookRoomState.numberOfGuests) {
-                        viewModel.onEvent(BookRoomEvent.AddMoreGuest(count - bookRoomState.numberOfGuests))
-                    } else {
-                        viewModel.onEvent(BookRoomEvent.QuitGuest(bookRoomState.numberOfGuests - count))
+                // Start Date Picker
+                DatePickerDialogCustom(
+                    modifier = Modifier,
+                    initialDate = bookRoomState.startDate,
+                    onDateSelected = {
+                        viewModel.onEvent(BookRoomEvent.AddStartDate(it))
                     }
-                }
-            )
+                )
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            ButtonCustom(onClick = {
-                viewModel.onEvent(BookRoomEvent.SearchRooms)
-               // navController.navigate(AppScreens.choseRoomScreen.route)
-            })
+                // End Date Picker
+                DatePickerDialogCustom(
+                    modifier = Modifier,
+                    initialDate = bookRoomState.endDate,
+                    onDateSelected = {
+                        viewModel.onEvent(BookRoomEvent.AddEndDate(it))
+                    }
+                )
 
-            SnackbarCustom(
-                isShown = bookRoomState.snackBarIsShown,
-                message = bookRoomState.snackBarMessage,
-                hideSnackBar = { viewModel.onEvent(BookRoomEvent.HideSnackBar(bookRoomState.snackBarIsShown)) },
-                snackbarHostState = snackbarHostState
-            )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Guest Selector
+                GuestSelector(
+                    modifier = Modifier.fillMaxWidth(),
+                    onGuestCountChanged = { count ->
+                        if (count > bookRoomState.numberOfGuests) {
+                            viewModel.onEvent(BookRoomEvent.AddMoreGuest(count - bookRoomState.numberOfGuests))
+                        } else {
+                            viewModel.onEvent(BookRoomEvent.QuitGuest(bookRoomState.numberOfGuests - count))
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                ButtonCustom(onClick = {
+                    viewModel.onEvent(BookRoomEvent.SearchRooms)
+                    // navController.navigate(AppScreens.choseRoomScreen.route)
+                })
+
+                SnackbarCustom(
+                    isShown = bookRoomState.snackBarIsShown,
+                    message = bookRoomState.snackBarMessage,
+                    hideSnackBar = { viewModel.onEvent(BookRoomEvent.HideSnackBar(bookRoomState.snackBarIsShown)) } ,
+                    snackbarHostState = snackbarHostState
+                )
+            }
         }
     }
 }
-}
+

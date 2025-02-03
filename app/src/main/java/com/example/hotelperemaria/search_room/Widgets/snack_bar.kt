@@ -1,17 +1,13 @@
-package com.example.hotelperemaria.search_room.Widgets
-
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.SnackbarDuration
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
 @SuppressLint("RememberReturnType")
@@ -20,32 +16,47 @@ fun SnackbarCustom(
     message: String,
     isShown: Boolean,
     hideSnackBar: () -> Unit,
-    snackbarHostState : SnackbarHostState
+    snackbarHostState: SnackbarHostState
 ) {
-
-    var showSnackbar = remember { mutableStateOf(isShown) } // Estado para controlar el Snackbar
-
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-
-        // SnackbarHost
-        SnackbarHost(
-            hostState = snackbarHostState,
-            modifier = Modifier.align(Alignment.BottomCenter)
-        )
-    }
-
-    // Mostrar el Snackbar cuando showSnackbar sea true
-    if (showSnackbar.value) {
+    if (isShown) {
         LaunchedEffect(Unit) {
             snackbarHostState.showSnackbar(
                 message = message,
                 duration = SnackbarDuration.Short
             )
             delay(3000) // Espera 3 segundos
-            hideSnackBar
+            hideSnackBar()
         }
+    }
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
+    ) {
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            snackbar = { data ->
+                CustomSnackbar(data)
+            }
+        )
+    }
+}
+
+@Composable
+fun CustomSnackbar(snackbarData: SnackbarData) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.medium)
+            .background(Color(0xFF333333)) // Gris oscuro
+            .padding(16.dp)
+    ) {
+        Text(
+            text = snackbarData.visuals.message,
+            color = Color.White
+        )
     }
 }
