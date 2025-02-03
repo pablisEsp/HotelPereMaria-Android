@@ -43,8 +43,13 @@ class RoomViewModel : ViewModel() {
             try {
                 _isLoading.value = true
                 val response = RetrofitInstance.api.getUniqueRooms()
-                _uniqueRooms.value = response
-                Log.d("API_RESPONSE", "Habitaciones únicas recibidas: ${response.size}")
+
+                // 🔥 Extraer las habitaciones de los wrappers
+                val habitaciones = response.map { it.habitacion }
+
+                _uniqueRooms.value = habitaciones // Ahora esto sí debería funcionar correctamente
+
+                Log.d("API_RESPONSE", "Habitaciones únicas recibidas: ${habitaciones.size}")
             } catch (e: Exception) {
                 Log.e("API_ERROR", "Error al obtener habitaciones únicas", e)
             } finally {
@@ -52,6 +57,7 @@ class RoomViewModel : ViewModel() {
             }
         }
     }
+
 
 
     fun fetchHabitaciones() {

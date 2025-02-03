@@ -30,17 +30,18 @@ fun AppNavigation() {
 
         // Ruta para la pantalla de detalles de la habitación
         composable(
-            route = "room_screen/{roomId}",
-            arguments = listOf(navArgument("roomId") { type = NavType.StringType }) // ✅ Cambiado a StringType
+            route = "room_screen/{codigo}",
+            arguments = listOf(navArgument("codigo") { type = NavType.StringType })
         ) { backStackEntry ->
-            val roomId = backStackEntry.arguments?.getString("roomId") // ✅ Asegurar que es un String
+            val codigo = backStackEntry.arguments?.getString("codigo")
 
-            if (roomId != null) {
-                RoomDetailScreen(roomId, navController) // ✅ Evita que se pase null
+            if (codigo != null) {
+                RoomDetailScreen(codigo, navController)
             } else {
                 Text("Error: Código de habitación no encontrado", color = Color.Red)
             }
         }
+
 
 
     }

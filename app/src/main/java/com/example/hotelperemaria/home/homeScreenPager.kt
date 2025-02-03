@@ -54,7 +54,7 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
 
     // Estado para controlar la visibilidad del tutorial
     val totalPages = habitaciones.size + 1
-    val pagerState = rememberPagerState(pageCount = { totalPages }) // Estado del HorizontalPager
+    val pagerState = rememberPagerState(pageCount = { totalPages })
 
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -103,6 +103,7 @@ fun PantallaInicio(
                     // ✅ Previene error de índice si `habitaciones` está vacío
                     if (habitaciones.isNotEmpty() && page - 1 < habitaciones.size) {
                         val habitacion = habitaciones[page - 1]
+                        //println("Habitación: $habitacion")
                         HabitacionPage(habitacion = habitacion, navController = navController)
                     } else {
                         Text(
@@ -301,7 +302,8 @@ fun SlidingTextToRight(
 @Composable
 fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
-        val imagenUrl = habitacion.imagenes.firstOrNull()?.takeIf { it.isNotBlank() }
+
+        val imagenUrl = habitacion.imagenes?.firstOrNull()?.takeIf { it.isNotBlank() }
             ?: "https://i.ibb.co/qYD28ySQ/standard-Room-twin.png" // ✅ Imagen por defecto
 
         // 📌 Cargar imagen de fondo usando Coil
@@ -320,7 +322,7 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = habitacion.nombre,
+                text = habitacion.categoria,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,

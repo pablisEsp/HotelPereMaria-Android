@@ -6,6 +6,10 @@ import androidx.compose.ui.res.painterResource
 import com.example.hotelperemaria.R
 import com.google.gson.annotations.SerializedName
 
+data class HabitacionWrapper(
+    @SerializedName("habitacion") val habitacion: Habitacion
+)
+
 data class Habitacion(
     @SerializedName("codigo") val codigo: String,
     @SerializedName("nombre") val nombre: String,
@@ -33,6 +37,7 @@ data class Servicio(
 /**
  * Función para convertir `serviciosString` en una lista de `Servicio`
  */
+
 fun mapServicios(serviciosString: List<String>): List<Servicio> {
     val servicioMap = mapOf(
         "WiFi" to "wifi",
