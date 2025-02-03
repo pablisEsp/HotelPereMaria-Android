@@ -45,11 +45,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
-import coil3.compose.AsyncImage
 
+import coil3.compose.AsyncImage
 import com.example.hotelperemaria.R
 import com.example.hotelperemaria.rooms.model.Habitacion
-import com.example.hotelperemaria.home.Habitacion
+
 
 import kotlin.math.absoluteValue
 
@@ -58,7 +58,7 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
 
     // Estado para controlar la visibilidad del tutorial
     val totalPages = habitaciones.size + 1
-    val pagerState = rememberPagerState(pageCount = { totalPages })
+    val pagerState = rememberPagerState(pageCount = { totalPages }, initialPage = 1)
 
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -121,10 +121,7 @@ fun PantallaInicio(
                     }
 
                 }
-                else {
-                    val habitacion = habitaciones[page - 1]
-                    HabitacionPage(habitacion = habitacion, navController = navController)
-                }
+
             }
         }
 
@@ -234,7 +231,7 @@ fun SlidingTextToLeft(
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1000), // Ciclo de 800ms
             repeatMode = RepeatMode.Reverse
-        )
+        ), label = ""
     )
 
     Row(
@@ -279,7 +276,7 @@ fun SlidingTextToRight(
         animationSpec = infiniteRepeatable(
             animation = tween(durationMillis = 1000), // Ciclo de 800ms
             repeatMode = RepeatMode.Reverse
-        )
+        ), label = ""
     )
 
     Row(

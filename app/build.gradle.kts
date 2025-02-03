@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.hotelperemaria"
-        minSdk = 34
+        minSdk = 33
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -65,16 +65,17 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.material.icons.extended)//para tener mas iconos
     //Dagger-Hilt
-    implementation("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-android-compiler:2.49")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     //Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
     //COIL
-    implementation(libs.coil.kt.coil.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
 
 }

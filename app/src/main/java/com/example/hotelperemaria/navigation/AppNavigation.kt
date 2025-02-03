@@ -12,12 +12,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.hotelperemaria.home.HomeScreen
-import com.example.hotelperemaria.home.habitaciones
-import com.example.hotelperemaria.rooms.view.RoomScreen
 
-import com.example.hotelperemaria.search_room.views.ChoseRoomScreen
 import com.example.hotelperemaria.rooms.view.RoomDetailScreen
 import com.example.hotelperemaria.search_room.screens.BookRoomsScreen
+import com.example.hotelperemaria.search_room.views.ChoseRoomScreen
 
 @Composable
 fun AppNavigation() {
@@ -29,14 +27,14 @@ fun AppNavigation() {
         }
 
         // room search view
-        composable(route = AppScreens.BookRoomsScreen.route) {
+        composable(route = AppScreens.bookRoomsScreen.route) {
             BookRoomsScreen(navController = navController)
             //lele
         }
 
         composable(route = AppScreens.choseRoomScreen.route) {
             ChoseRoomScreen(
-                habitaciones = habitaciones, navController = navController,
+                habitaciones = TODO(), navController = navController,
                 onRoomClick = { Room -> Unit },
                 modifier = Modifier,
                 scrollState = rememberLazyListState() )

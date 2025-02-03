@@ -19,7 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.hotelperemaria.home.Habitacion
+import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.ui.theme.darkGray
 import com.example.hotelperemaria.ui.theme.lightGray
 import com.example.hotelperemaria.ui.theme.silver
@@ -40,7 +40,7 @@ fun HotelReservationCard(habitacion: Habitacion?) {
     ) {
         Column {
             Image(
-                painter = painterResource(id = habitacion!!.imagen), // Reemplaza con tu imagen
+                painter = painterResource(id = TODO()), // Reemplaza con tu imagen
                 contentDescription = "Suit Room",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -52,7 +52,7 @@ fun HotelReservationCard(habitacion: Habitacion?) {
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = habitacion.nombre,
+                    text = habitacion!!.nombre,
                     style = MaterialTheme.typography.titleMedium,
                     color = white
                 )

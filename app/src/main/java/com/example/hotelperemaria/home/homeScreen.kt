@@ -9,19 +9,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.hotelperemaria.R
-import com.example.hotelperemaria.utils.BottomAppBarCustom
-
-// Datos de ejemplo
-data class Habitacion(val id: Int, val nombre: String, val descripcion: String, val imagen: Int)
-
+import com.example.hotelperemaria.rooms.viewmodel.RoomViewModel
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: RoomViewModel = viewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: RoomViewModel = hiltViewModel(),
+) {
     val uniqueRooms by viewModel.uniqueRooms.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 

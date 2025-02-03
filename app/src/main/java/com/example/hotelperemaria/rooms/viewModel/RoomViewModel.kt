@@ -1,15 +1,21 @@
 package com.example.hotelperemaria.rooms.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotelperemaria.api.RetrofitInstance
 import com.example.hotelperemaria.rooms.model.Habitacion
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RoomViewModel : ViewModel() {
+@HiltViewModel
+class RoomViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
     private val _habitaciones = MutableStateFlow<List<Habitacion>>(emptyList()) // Estado de la lista de habitaciones
     val habitaciones: StateFlow<List<Habitacion>> = _habitaciones
