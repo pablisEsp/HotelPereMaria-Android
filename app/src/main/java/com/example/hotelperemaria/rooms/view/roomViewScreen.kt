@@ -150,7 +150,8 @@ fun RoomServices(services: List<Servicio>) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
                     painter = getPainterFromName(servicio.icono),
-                    contentDescription = servicio.nombre
+                    contentDescription = servicio.nombre,
+                    modifier = Modifier.size(32.dp)
                 )
                 Text(text = servicio.nombre, fontSize = 12.sp, color = Color.Black)
             }
