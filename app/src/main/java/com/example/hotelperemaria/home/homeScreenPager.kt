@@ -58,7 +58,7 @@ import kotlin.math.absoluteValue
 fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: NavController, viewModelBookRoom: BookRoomViewModel) {
 
     // Estado para controlar la visibilidad del tutorial
-    val totalPages = habitaciones.size + 1
+    val totalPages = habitaciones.size + 2
     val pagerState = rememberPagerState(pageCount = { totalPages }, initialPage = 1)
 
 
@@ -105,14 +105,14 @@ fun PantallaInicio(
                         )
                     }
             ) {
-                if (page == 0) {//cabron pablo llama al nav que pa algo esta
+                if (page == 0) {
                     BookRoomsScreen(navController,viewModelBookRoom)
                 }else if(page == 1){
                     PrimeraPagina()
                 } else {
                     // ✅ Previene error de índice si `habitaciones` está vacío
-                    if (habitaciones.isNotEmpty() && page - 1 < habitaciones.size) {
-                        val habitacion = habitaciones[page - 1]
+                    if (habitaciones.isNotEmpty() && page - 2 != habitaciones.size) {
+                        val habitacion = habitaciones[page - 2]
                         //println("Habitación: $habitacion")
                         HabitacionPage(habitacion = habitacion, navController = navController)
                     } else {
