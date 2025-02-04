@@ -12,11 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hotelperemaria.rooms.viewmodel.RoomViewModel
+import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavController,
     viewModel: RoomViewModel = hiltViewModel(),
+    viewModelBookRoom :BookRoomViewModel
 ) {
     val uniqueRooms by viewModel.uniqueRooms.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -33,7 +35,7 @@ fun HomeScreen(
             CircularProgressIndicator()
         }
     } else {
-        PantallaInicioConTutorial(habitaciones = uniqueRooms, navController)
+        PantallaInicioConTutorial(habitaciones = uniqueRooms, navController, viewModelBookRoom)
     }
 }
 

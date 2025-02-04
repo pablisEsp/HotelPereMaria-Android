@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -18,16 +20,18 @@ import androidx.navigation.NavController
 import com.example.hotelperemaria.R
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.search_room.Widgets.HotelReservationCard
+import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 
 @Composable
 fun ChoseRoomScreen(
     navController: NavController,
-    habitaciones: List<Habitacion>,
     onRoomClick: (Habitacion) -> Unit,
     modifier: Modifier,
+    viewModel: BookRoomViewModel,
     scrollState: LazyListState = rememberLazyListState()
     ) {
-
+    val bookRoomState by viewModel.bookRoomState.collectAsState()
+    val habitaciones = bookRoomState.listOfRoomBooks
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hotelperemaria.api.ApiService
+import com.example.hotelperemaria.api.RetrofitInstance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,6 +22,9 @@ class BookRoomViewModel @Inject constructor(
     // Single state object to hold all properties
     private val _bookRoomState = MutableStateFlow(BookRoomState())
     val bookRoomState = _bookRoomState.asStateFlow()
+
+    private val _navigateToChooseRoom = MutableStateFlow(false)
+    val navigateToChooseRoom = _navigateToChooseRoom.asStateFlow()
 
     // Function to handle events
     fun onEvent(event: BookRoomEvent) {
@@ -51,12 +56,12 @@ class BookRoomViewModel @Inject constructor(
                 val endDate = LocalDate.parse(_bookRoomState.value.endDate,formatter)
                 if (startDate.isBefore(LocalDate.now())){
                     updateState { it.copy(snackBarMessage = "Has introducido una fecha anterior al dia de hoy", snackBarIsShown = true) }
-                }
-                if (startDate.isAfter(endDate)){
-                    updateState { it.copy(snackBarMessage = "Has seleccionado una fecha de salida anterior a la fecha de entrada", snackBarIsShown = true) }
-                }
-                viewModelScope.launch {
-                    // Example: Trigger navigation or API call
+                }else if (startDate.isAfter(endDate) || startDate.isEqual(endDate)){
+                    updateState { it.copy(snackBarMessage = "Has seleccionado una fecha de salida anterior o igual a la fecha de entrada", snackBarIsShown = true) }
+                }else
+                    viewModelScope.launch {
+                        searchAvailableRooms(startDate= startDate,endDate = endDate, numGuests = _bookRoomState.value.numberOfGuests)
+
                 }
             }
 
@@ -68,10 +73,14 @@ class BookRoomViewModel @Inject constructor(
                 updateState { it.copy(snackBarIsShown = !event.value) }
             }
         }
+
+
     }
 
 
-
+    fun onNavigationDone() {
+        _navigateToChooseRoom.value = false  // Resetear estado de navegación
+    }
     // Helper function to update the state safely
     private fun updateState(update: (BookRoomState) -> BookRoomState) {
         val currentState = _bookRoomState.value
@@ -86,10 +95,41 @@ class BookRoomViewModel @Inject constructor(
             endDate = formateador(LocalDate.now().plusDays(2)), // Default end date is tomorrow
             numberOfGuests = 1,
             snackBarIsShown = false,
-            snackBarMessage = "This is an example text"
+            snackBarMessage = "This is an example text",
+            listOfRoomBooks = listOf()
         )
     }
+
+    private fun searchAvailableRooms(startDate: LocalDate, endDate: LocalDate, numGuests: Int) {
+        viewModelScope.launch {
+            try {
+                val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val freeRooms = RetrofitInstance.api.getFreeRooms(
+                    startDate.format(formatter),
+                    endDate.format(formatter),
+                    numGuests
+                )
+
+
+
+                if (freeRooms.isEmpty()) {
+                    updateState {
+                        it.copy(snackBarMessage = "No hay habitaciones disponibles", snackBarIsShown = true)
+                    }
+                } else {
+                    updateState { it.copy(listOfRoomBooks =freeRooms) }
+                    _navigateToChooseRoom.value = true  // Activa la navegación
+                    Log.d("habitaciones", "searchAvailableRooms: "+_bookRoomState.value.listOfRoomBooks.toString())
+                }
+            } catch (e: Exception) {
+                Log.e("BookRoomViewModel", "Error obteniendo habitaciones: ${e.message}")
+                updateState { it.copy(snackBarMessage = "Error obteniendo habitaciones", snackBarIsShown = true) }
+            }
+        }
+    }
+
 }
+
 
 fun formateador(localDate: LocalDate):String{
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")

@@ -11,6 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
+import com.example.hotelperemaria.navigation.AppScreens
 import com.example.hotelperemaria.search_room.views.booking.BookRoomEvent
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 import com.example.hotelperemaria.search_room.views.widgets.DatePickerDialogCustom
@@ -30,10 +32,17 @@ import com.example.hotelperemaria.search_room.views.widgets.DatePickerDialogCust
 @Composable
 fun BookRoomsScreen(
     navController: NavController,
-    viewModel: BookRoomViewModel = hiltViewModel(),
+    viewModel: BookRoomViewModel
 ) {
     val bookRoomState by viewModel.bookRoomState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val navigateToChooseRoom by viewModel.navigateToChooseRoom.collectAsState()
+    LaunchedEffect(navigateToChooseRoom) {
+        if (navigateToChooseRoom) {
+            navController.navigate(AppScreens.choseRoomScreen.route)
+            viewModel.onNavigationDone()  // Resetear el estado después de navegar
+        }
+    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
@@ -102,7 +111,7 @@ fun BookRoomsScreen(
 
                 ButtonCustom(onClick = {
                     viewModel.onEvent(BookRoomEvent.SearchRooms)
-                    // navController.navigate(AppScreens.choseRoomScreen.route)
+
                 })
 
                 SnackbarCustom(

@@ -49,12 +49,13 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.hotelperemaria.R
 import com.example.hotelperemaria.rooms.model.Habitacion
+import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 
 
 import kotlin.math.absoluteValue
 
 @Composable
-fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: NavController) {
+fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: NavController, viewModelBookRoom: BookRoomViewModel) {
 
     // Estado para controlar la visibilidad del tutorial
     val totalPages = habitaciones.size + 1
@@ -66,7 +67,8 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
         PantallaInicio(
             habitaciones = habitaciones,
             pagerState = pagerState,
-            navController = navController
+            navController = navController,
+            viewModelBookRoom
         )
     }
 }
@@ -76,7 +78,8 @@ fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: Nav
 fun PantallaInicio(
     habitaciones: List<Habitacion>,
     pagerState: PagerState,
-    navController: NavController
+    navController: NavController,
+    viewModelBookRoom: BookRoomViewModel,
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -102,8 +105,8 @@ fun PantallaInicio(
                         )
                     }
             ) {
-                if (page == 0) {
-                    BookRoomsScreen(navController)
+                if (page == 0) {//cabron pablo llama al nav que pa algo esta
+                    BookRoomsScreen(navController,viewModelBookRoom)
                 }else if(page == 1){
                     PrimeraPagina()
                 } else {

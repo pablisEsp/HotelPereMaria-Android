@@ -3,7 +3,9 @@ package com.example.hotelperemaria.api
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.model.HabitacionWrapper
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @GET("api/rooms/{codigo}")
@@ -15,6 +17,17 @@ interface ApiService {
     @GET("api/rooms") // Asegúrate de que este endpoint devuelve una lista de habitaciones
     suspend fun getHabitaciones(): List<Habitacion>
 
+
+
+
+    //Calls to th
+
+    @POST("api/bookings/getFreeRooms") // Se agregaron @Query para pasar los parámetros correctamente
+    suspend fun getFreeRooms(
+        @Query("startdate") startDate: String,
+        @Query("enddate") endDate: String,
+        @Query("numGuest") numGuest: Int
+    ): List<Habitacion>
 
 }
 
