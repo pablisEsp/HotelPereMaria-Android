@@ -23,7 +23,7 @@ fun HomeScreen(
     val uniqueRooms by viewModel.uniqueRooms.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 
-    // Ejecutar la llamada a la API solo cuando la pantalla se carga
+    // Ejecutar la llamada a la API solo cuando la pantalla se carga hh
     LaunchedEffect(Unit) {
         if (uniqueRooms.isEmpty()) { // Evita llamadas innecesarias
             viewModel.fetchUniqueRooms()
@@ -38,6 +38,3 @@ fun HomeScreen(
         PantallaInicioConTutorial(habitaciones = uniqueRooms, navController, viewModelBookRoom)
     }
 }
-
-
-// cambios hechos :)
