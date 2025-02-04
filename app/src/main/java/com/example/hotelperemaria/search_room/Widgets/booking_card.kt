@@ -24,6 +24,7 @@ import com.example.hotelperemaria.ui.theme.lightGray
 import com.example.hotelperemaria.ui.theme.silver
 import com.example.hotelperemaria.ui.theme.uranianBlue
 import com.example.hotelperemaria.ui.theme.white
+import com.example.hotelperemaria.utils.Config.SERVER_IP
 
 @Composable
 fun HotelReservationCard(habitacion: Habitacion?) {
@@ -37,9 +38,11 @@ fun HotelReservationCard(habitacion: Habitacion?) {
             .fillMaxWidth()
             .padding(16.dp)
     ) {
+        val imagenUrl = (SERVER_IP + habitacion!!.imagenes?.firstOrNull()?.takeIf { it.isNotBlank() })
+
         Column {
             AsyncImage(
-                model = habitacion!!.imagenes.first(), // Reemplaza con tu imagen
+                model =imagenUrl, // Reemplaza con tu imagen
                 contentDescription = habitacion.descripcion,
                 modifier = Modifier
                     .fillMaxWidth()
