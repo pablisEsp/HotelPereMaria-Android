@@ -318,7 +318,7 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
         val imagenUrl = habitacion.imagenes?.firstOrNull()?.takeIf { it.isNotBlank() }
             ?: "https://i.ibb.co/qYD28ySQ/standard-Room-twin.png" // ✅ Imagen por defecto
 
-        // 📌 Cargar imagen de fondo usando Coil
+        // 📌 Cargar imagen de fondo usando Coil ca
         AsyncImage(
             model = imagenUrl,
             contentDescription = "Imagen de la habitación",
