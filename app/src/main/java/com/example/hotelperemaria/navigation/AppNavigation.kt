@@ -3,6 +3,7 @@
 package com.example.hotelperemaria.navigation
 
 import BookRoomsScreen
+import RoomDetailScreen
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,7 +18,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.hotelperemaria.home.HomeScreen
-import com.example.hotelperemaria.rooms.view.RoomDetailScreen
 import com.example.hotelperemaria.search_room.views.ChoseRoomScreen
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 
