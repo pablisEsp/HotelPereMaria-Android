@@ -316,7 +316,7 @@ fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
         val imagenUrl = SERVER_IP + habitacion.imagenes?.firstOrNull()?.takeIf { it.isNotBlank() }
             ?: "http://localhost:3000/uploads/juniorSuite.jpg" // ✅ Imagen por defecto
 
-        // 📌 Cargar imagen de fondo usando Coil
+        // 📌 Cargar imagen de fondo usando Coil ca
         AsyncImage(
             model = imagenUrl,
             contentDescription = "Imagen de la habitación",
