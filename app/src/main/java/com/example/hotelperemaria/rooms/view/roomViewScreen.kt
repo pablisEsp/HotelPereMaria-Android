@@ -36,6 +36,7 @@ import com.example.hotelperemaria.rooms.model.Servicio
 import com.example.hotelperemaria.rooms.model.getPainterFromName
 import com.example.hotelperemaria.rooms.model.mapServicios
 import com.example.hotelperemaria.rooms.viewmodel.RoomViewModel
+import com.example.hotelperemaria.utils.Config.SERVER_IP
 
 
 @Composable
@@ -124,7 +125,7 @@ fun ImageCarousel(images: List<String>) {
             .height(250.dp)
     ) { page ->
         AsyncImage(
-            model = images[page],  // Carga la imagen desde la URL
+            model = SERVER_IP + images[page],  // Carga la imagen desde la URL
             contentDescription = "Imagen de la habitación",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()

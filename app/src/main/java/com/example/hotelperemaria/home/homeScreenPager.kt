@@ -49,6 +49,7 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.hotelperemaria.R
 import com.example.hotelperemaria.rooms.model.Habitacion
+import com.example.hotelperemaria.utils.Config.SERVER_IP
 
 
 import kotlin.math.absoluteValue
@@ -312,8 +313,8 @@ fun SlidingTextToRight(
 fun HabitacionPage(habitacion: Habitacion, navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
 
-        val imagenUrl = habitacion.imagenes?.firstOrNull()?.takeIf { it.isNotBlank() }
-            ?: "https://i.ibb.co/qYD28ySQ/standard-Room-twin.png" // ✅ Imagen por defecto
+        val imagenUrl = SERVER_IP + habitacion.imagenes?.firstOrNull()?.takeIf { it.isNotBlank() }
+            ?: "http://localhost:3000/uploads/juniorSuite.jpg" // ✅ Imagen por defecto
 
         // 📌 Cargar imagen de fondo usando Coil
         AsyncImage(

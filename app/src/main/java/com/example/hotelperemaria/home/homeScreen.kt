@@ -36,6 +36,3 @@ fun HomeScreen(
         PantallaInicioConTutorial(habitaciones = uniqueRooms, navController)
     }
 }
-
-
-// cambios hechos :)
