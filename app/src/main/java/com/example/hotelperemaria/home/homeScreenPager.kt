@@ -317,7 +317,7 @@ fun SlidingTextToRight(
             modifier = Modifier.padding(end = 8.dp), // Espacio entre texto y flecha
 
         )
-        // Flecha hacia la derecha
+        // Flecha hacia la derech
         Icon(
             imageVector = icon,
             contentDescription = "Flecha hacia la derecha",
