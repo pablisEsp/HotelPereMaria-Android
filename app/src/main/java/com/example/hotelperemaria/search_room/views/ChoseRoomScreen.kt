@@ -18,8 +18,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.hotelperemaria.R
+import com.example.hotelperemaria.navigation.AppScreens
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.search_room.Widgets.HotelReservationCard
+import com.example.hotelperemaria.search_room.views.booking.BookRoomEvent
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 
 @Composable
@@ -50,7 +52,11 @@ fun ChoseRoomScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items(items = habitaciones, key = { it.codigo }) { room ->
-                HotelReservationCard(habitacion = room)
+                HotelReservationCard(habitacion = room, selectRoom = { selectedRoom ->
+                    viewModel.onEvent(BookRoomEvent.SelectRoom(selectedRoom))
+                    navController.navigate(AppScreens.viewDetailsBooking.route)
+                })
+
             }
 
         }

@@ -27,7 +27,10 @@ import com.example.hotelperemaria.ui.theme.white
 import com.example.hotelperemaria.utils.Config.SERVER_IP
 
 @Composable
-fun HotelReservationCard(habitacion: Habitacion?) {
+fun HotelReservationCard(
+    habitacion: Habitacion?,
+    selectRoom: (Habitacion) -> Unit
+) {
 
     Card(
         colors = CardDefaults.cardColors(
@@ -78,7 +81,7 @@ fun HotelReservationCard(habitacion: Habitacion?) {
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = { /* Acción de reserva */ },
+                    onClick = { selectRoom(habitacion) } ,
                     colors = ButtonDefaults.buttonColors(
                         containerColor = lightGray.copy(alpha = 0.8f),
                         contentColor = white
@@ -93,8 +96,4 @@ fun HotelReservationCard(habitacion: Habitacion?) {
 }
 
 
-@Preview
-@Composable
-fun hotelReservaPreview(){
-    HotelReservationCard(habitacion = null)
-}
+

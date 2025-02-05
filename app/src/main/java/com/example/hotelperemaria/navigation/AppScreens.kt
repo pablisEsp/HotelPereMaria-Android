@@ -11,5 +11,7 @@ sealed class AppScreens(val route: String) {
     data object RoomScreen: AppScreens("room_screen")
 
     data object choseRoomScreen:AppScreens("chose_room_screen")
+
+    data object viewDetailsBooking :AppScreens("details_booking")
 }
 //this are simulated screens , here should be the reals ones, those are examples for you to replace with yours screens

@@ -72,6 +72,10 @@ class BookRoomViewModel @Inject constructor(
             is BookRoomEvent.HideSnackBar ->{
                 updateState { it.copy(snackBarIsShown = !event.value) }
             }
+
+            is BookRoomEvent.SelectRoom -> {
+                updateState { it.copy(selectedRoom = event.value) }
+            }
         }
 
 
@@ -96,7 +100,8 @@ class BookRoomViewModel @Inject constructor(
             numberOfGuests = 1,
             snackBarIsShown = false,
             snackBarMessage = "This is an example text",
-            listOfRoomBooks = listOf()
+            listOfRoomBooks = listOf(),
+            selectedRoom = null
         )
     }
 

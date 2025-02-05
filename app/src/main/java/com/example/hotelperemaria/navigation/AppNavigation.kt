@@ -3,6 +3,7 @@
 package com.example.hotelperemaria.navigation
 
 import BookRoomsScreen
+import BookingDetailsView
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,6 +46,10 @@ fun AppNavigation() {
                 modifier = Modifier,
                 scrollState = rememberLazyListState() ,
                 viewModel = viewModelBookRoom)}
+
+        composable(route = AppScreens.viewDetailsBooking.route) {
+            BookingDetailsView(viewModelBookRoom)
+        }
 
 
 

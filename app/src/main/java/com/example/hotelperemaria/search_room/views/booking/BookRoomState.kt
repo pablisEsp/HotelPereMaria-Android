@@ -10,5 +10,6 @@ data class BookRoomState(
     val numberOfGuests: Int = 1,
     val snackBarIsShown: Boolean = false,
     val snackBarMessage: String = "",
-    val listOfRoomBooks : List<Habitacion> = listOf()
+    val listOfRoomBooks : List<Habitacion> = listOf(),
+    val selectedRoom : Habitacion? = null
 )
