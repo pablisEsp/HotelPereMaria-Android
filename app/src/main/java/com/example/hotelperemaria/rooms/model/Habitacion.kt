@@ -86,7 +86,7 @@ fun getPainterFromName(iconoName: String): Painter {
         "billiard" -> R.drawable.billiard
         "balcony" -> R.drawable.balcony
         "iron" -> R.drawable.iron
-        "miniBar" -> R.drawable.minibar
+        "minibar" -> R.drawable.minibar
 
         //default icon
         else -> R.drawable.ic_default

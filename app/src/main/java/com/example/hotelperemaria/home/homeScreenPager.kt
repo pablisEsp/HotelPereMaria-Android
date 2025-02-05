@@ -56,7 +56,11 @@ import com.example.hotelperemaria.utils.Config.SERVER_IP
 import kotlin.math.absoluteValue
 
 @Composable
-fun PantallaInicioConTutorial(habitaciones: List<Habitacion>, navController: NavController, viewModelBookRoom: BookRoomViewModel) {
+fun PantallaInicioConTutorial(
+    habitaciones: List<Habitacion>,
+    navController: NavController,
+    viewModelBookRoom: BookRoomViewModel
+) {
 
     // Estado para controlar la visibilidad del tutorial
     val totalPages = habitaciones.size + 2
@@ -89,7 +93,7 @@ fun PantallaInicio(
             state = pagerState,
             modifier = Modifier.fillMaxSize(),
 
-        ) { page ->
+            ) { page ->
             Card(
                 Modifier
                     .fillMaxSize()
@@ -107,8 +111,8 @@ fun PantallaInicio(
                     }
             ) {
                 if (page == 0) {
-                    BookRoomsScreen(navController,viewModelBookRoom)
-                }else if(page == 1){
+                    BookRoomsScreen(navController, viewModelBookRoom)
+                } else if (page == 1) {
                     PrimeraPagina()
                 } else {
                     // ✅ Previene error de índice si `habitaciones` está vacío
@@ -157,68 +161,82 @@ fun PantallaInicio(
 
 @Composable
 fun PrimeraPagina() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Imagen del icono del hotel
+
+        // Imagen de fondo
         Image(
-            painter = painterResource(id = R.drawable.asgard_icon),
-            contentDescription = "Icono del Hotel Asgard",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp, top = 100.dp)
+            painter = painterResource(id = R.drawable.fondoreservas), // Reemplaza con tu imagen de fondo
+            contentDescription = "Fondo del Hotel Asgard",
+            contentScale = ContentScale.FillBounds, // Para que la imagen cubra toda la pantalla
+            modifier = Modifier.fillMaxSize()
         )
 
-        Spacer(Modifier.height(16.dp))
-
-        // Título y descripción
         Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Descubre la belleza nórdica",
-                textAlign = TextAlign.Center,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-            Text(
-                text = "Explora nuestras habitaciones únicas y disfruta de una experiencia inolvidable en el corazón del norte.",
-                fontSize = 16.sp,
-                color = Color.White,
-                modifier = Modifier.padding(horizontal = 16.dp),
-                lineHeight = 22.sp,
-                textAlign = TextAlign.Center
-            )
-        }
-
-        Spacer(Modifier.height(140.dp))
-        // Animaciones de deslizamiento
-        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+                .fillMaxSize()
+                .padding(32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
-            SlidingTextToLeft(
-                text = "Desliza para reservar",
-                icon = Icons.AutoMirrored.Filled.ArrowForward
+            // Imagen del icono del hotel
+            Image(
+                painter = painterResource(id = R.drawable.asgard_easter_egg_dorado),
+                contentDescription = "Icono del Hotel Asgard",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp, top = 100.dp)
             )
-            SlidingTextToRight(
-                text = "Desliza para explorar",
-                icon = Icons.AutoMirrored.Filled.ArrowForward
-            )
-        }
 
+            Spacer(Modifier.height(16.dp))
+
+            // Título y descripción
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Descubre la belleza nórdica",
+                    textAlign = TextAlign.Center,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.padding(bottom = 4.dp)
+                )
+                Text(
+                    text = "Explora nuestras habitaciones únicas y disfruta de una experiencia inolvidable en el corazón del norte.",
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    lineHeight = 22.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Spacer(Modifier.height(140.dp))
+            // Animaciones de deslizamiento
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                SlidingTextToLeft(
+                    text = "Desliza para reservar",
+                    icon = Icons.AutoMirrored.Filled.ArrowForward
+                )
+                SlidingTextToRight(
+                    text = "Desliza para explorar",
+                    icon = Icons.AutoMirrored.Filled.ArrowForward
+                )
+            }
+        }
     }
+
+
 }
 
 @Composable
@@ -247,7 +265,7 @@ fun SlidingTextToLeft(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
 
-    ) {
+        ) {
         // Flecha hacia la izquierda
         Icon(
             imageVector = icon,
@@ -299,7 +317,7 @@ fun SlidingTextToRight(
             modifier = Modifier.padding(end = 8.dp), // Espacio entre texto y flecha
 
         )
-        // Flecha hacia la derecha
+        // Flecha hacia la derech
         Icon(
             imageVector = icon,
             contentDescription = "Flecha hacia la derecha",
