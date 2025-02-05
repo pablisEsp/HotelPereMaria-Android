@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.SmokingRooms
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -24,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.DarkGray
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -96,14 +98,20 @@ fun BookingDetailsView(viewModel: BookRoomViewModel) {
             icon = Icons.Default.SmokingRooms,
         )
         Spacer(modifier = Modifier.height(20.dp))
-        ButtonCustom (modifier = Modifier.width(800.dp)){  }
+        ButtonCustom (modifier = Modifier.width(800.dp),
+            colors =  ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF11147c), // Fondo transparente para usar el gradiente
+                contentColor = white // Color del texto
+            ),
+            onClick = {}
+        )
     }
 }
 
 @Composable
 fun BookingDetailItem(label: String, value: String, icon: ImageVector) {
     Column(
-        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)
+        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)
 
     ) {
         Text(

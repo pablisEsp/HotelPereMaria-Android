@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,7 +23,11 @@ import com.example.hotelperemaria.ui.theme.white
 @Composable
 fun ButtonCustom(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    colors: ButtonColors = ButtonDefaults.buttonColors(
+        containerColor = DarkGray, // Fondo transparente para usar el gradiente
+        contentColor = white // Color del texto
+    )
 ) {
 
     Button(
@@ -32,10 +37,7 @@ fun ButtonCustom(
             .height(56.dp)
             .padding(horizontal = 32.dp, vertical = 8.dp),
         shape = MaterialTheme.shapes.medium, // Bordes redondeados
-        colors = ButtonDefaults.buttonColors(
-            containerColor = DarkGray, // Fondo transparente para usar el gradiente
-            contentColor = white // Color del texto
-        ),
+        colors = colors ,
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 4.dp, // Elevación por defecto
             pressedElevation = 8.dp // Elevación al presionar
