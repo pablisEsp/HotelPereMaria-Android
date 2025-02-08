@@ -73,7 +73,7 @@ fun HotelReservationCard(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = habitacion.precio.toString()+"por noche",
+                    text = "${habitacion.precio}€ / noche",
                     style = MaterialTheme.typography.headlineMedium,
                     color = uranianBlue
                 )

@@ -1,7 +1,12 @@
+import android.inputmethodservice.Keyboard
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,11 +29,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,7 +69,7 @@ fun BookingDetailsView(viewModel: BookRoomViewModel) {
     ) {
 
         Text(
-            text ="Detalles de la Reserva",
+            text = "Detalles de la Reserva",
             color = white,
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
@@ -71,24 +78,35 @@ fun BookingDetailsView(viewModel: BookRoomViewModel) {
                 .align(alignment = Alignment.CenterHorizontally)
 
         )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(intrinsicSize = IntrinsicSize.Max),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            DateDetailItem(
+                label = "Fecha Entrada",
+                value = bookRoomState.startDate,
+                icon = Icons.Default.CalendarMonth,
+                modifier = Modifier.width(169.dp)
 
-        BookingDetailItem(
-            label = "Fecha de Entrada",
-            value = bookRoomState.startDate,
-            icon = Icons.Default.CalendarMonth
-        )
+            )
 
-        BookingDetailItem(
-            label = "Fecha de Salida",
-            value = bookRoomState.endDate,
-            icon = Icons.Default.CalendarMonth
-        )
+            DateDetailItem(
+                label = "Fecha Salida",
+                value = bookRoomState.endDate,
+                icon = Icons.Default.CalendarMonth,
+                modifier = Modifier.width(169.dp)
+            )
+        }
+
+
 
         BookingDetailItem(
             label = "Número de Huéspedes",
             value = bookRoomState.numberOfGuests.toString(),
             icon = Icons.Default.Person,
-            )
+        )
 
         BookingDetailItem(
             label = "Habitacion Seleccionada",
@@ -96,9 +114,9 @@ fun BookingDetailsView(viewModel: BookRoomViewModel) {
             icon = Icons.Default.SmokingRooms,
         )
         Spacer(modifier = Modifier.height(20.dp))
-        ButtonCustom (modifier = Modifier.width(800.dp),
-            colors =  ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF11147c), // Fondo transparente para usar el gradiente
+        ButtonCustom(modifier = Modifier.width(800.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF191936), // Fondo transparente para usar el gradiente
                 contentColor = white // Color del texto
             ),
             onClick = {}
@@ -107,19 +125,24 @@ fun BookingDetailsView(viewModel: BookRoomViewModel) {
 }
 
 @Composable
-fun BookingDetailItem(label: String, value: String, icon: ImageVector) {
+fun BookingDetailItem(
+    label: String,
+    value: String,
+    icon: ImageVector,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+) {
     Column(
-        modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)
+        modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)
 
     ) {
         Text(
             text = label,
             color = white,
-            fontSize = 22.sp,
+            fontSize = 20.sp,
             textAlign = TextAlign.Start,
             modifier = Modifier
                 .fillMaxWidth()
-                .align(alignment = Alignment.CenterHorizontally)
+                .align(alignment = Alignment.CenterHorizontally).padding(5.dp)
 
         )
 
@@ -131,7 +154,7 @@ fun BookingDetailItem(label: String, value: String, icon: ImageVector) {
             onValueChange = {},
             readOnly = true,
             textStyle = TextStyle(
-                fontSize = 18.sp, textAlign = TextAlign.Center, color = white
+                fontSize = 22.sp, textAlign = TextAlign.Center, color = white
             ),
             colors = TextFieldDefaults.colors(
                 disabledContainerColor = darkGray.copy(alpha = 0.8f),
@@ -150,9 +173,68 @@ fun BookingDetailItem(label: String, value: String, icon: ImageVector) {
     }
 }
 
+@Composable
+fun DateDetailItem(
+    label: String,
+    value: String,
+    icon: ImageVector,
+    modifier: Modifier = Modifier
+        .width(172.dp)
+        .height(60.dp),
+    ) {
+    Column {
+    Text(
+        text = label,
+        color = white,
+        fontSize = 16.sp,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+    )
+        Spacer(modifier = Modifier.height(8.dp))
+    Column(
+        modifier = modifier.fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = darkGray.copy(alpha = 0.6f)), // Primero background
+            //.border(2.dp, Color.White, shape = RoundedCornerShape(30.dp)),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+
+    ) {
+
+        TextField(
+            shape = RoundedCornerShape(30.dp),
+            value = value,
+            enabled = false,
+            onValueChange = {},
+            readOnly = true,
+            textStyle = TextStyle(
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
+                color = white,
+                fontWeight = FontWeight.Bold
+            ),
+            colors = TextFieldDefaults.colors(
+                disabledContainerColor = Color.Transparent,
+                disabledTextColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            ),
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Default.CalendarMonth,
+                    tint = white,
+                    contentDescription = null,
+                    )
+
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(64.dp) // Más compacto
+        )
+    }}
+}
 
 @Preview
 @Composable
-fun previewpageComo() {
-    BookingDetailsView(viewModel = BookRoomViewModel(SavedStateHandle()))
+fun FechaPreview() {
+    DateDetailItem("Fecha Entrada", "12/2/2024", Icons.Default.CalendarMonth)
 }
