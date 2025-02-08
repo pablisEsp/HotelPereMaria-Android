@@ -1,7 +1,6 @@
 @file:Suppress("UNREACHABLE_CODE")
 
 package com.example.hotelperemaria.navigation
-
 import BookRoomsScreen
 import BookingDetailsView
 import RoomDetailScreen
@@ -66,7 +65,6 @@ fun AppNavigation() {
                 Text("Error: Código de habitación no encontrado", color = Color.Red)
             }
         }
-
 
     }
 }
