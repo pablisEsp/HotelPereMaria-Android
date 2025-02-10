@@ -117,7 +117,7 @@ fun RoomDetailScreen(idHabitacion: String, navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = habitacion!!.precio.toString() + "€ / noche",
+                    text = "${habitacion!!.precio}€ / noche",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = white
