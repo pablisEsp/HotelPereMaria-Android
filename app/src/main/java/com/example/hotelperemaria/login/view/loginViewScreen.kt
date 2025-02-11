@@ -2,9 +2,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -14,10 +16,11 @@ fun PantallaCompleta() {
 
     var userName by remember { mutableStateOf("") }
     var pasword by remember { mutableStateOf("") }
+
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Hotel Asgard") })
-        }
+        }, modifier = Modifier.fillMaxSize()
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -43,7 +46,7 @@ fun PantallaCompleta() {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(onClick = { /* Acción aquí */ }) {
-                Text("Haz clic")
+                Text("Acceder")
             }
         }
     }
