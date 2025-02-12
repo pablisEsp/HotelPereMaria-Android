@@ -1,7 +1,6 @@
 package com.example.hotelperemaria
 
 
-import com.example.hotelperemaria.navigation.AppNavigation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,6 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             HotelPereMariaTheme {
                 AppNavigation()
+
             }
         }
     }

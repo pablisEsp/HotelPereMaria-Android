@@ -4,19 +4,24 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hotelperemaria.api.ApiService
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.hotelperemaria.Reserva
 import com.example.hotelperemaria.api.RetrofitInstance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 import javax.inject.Inject
 
 @HiltViewModel
 class BookRoomViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     // Single state object to hold all properties
@@ -30,10 +35,11 @@ class BookRoomViewModel @Inject constructor(
     fun onEvent(event: BookRoomEvent) {
         when (event) {
             is BookRoomEvent.AddStartDate -> {
-                    updateState { it.copy(startDate = event.value) }
+                updateState { it.copy(startDate = event.value) }
             }
+
             is BookRoomEvent.AddEndDate -> {
-                    updateState { it.copy(endDate = event.value) }
+                updateState { it.copy(endDate = event.value) }
             }
 
             is BookRoomEvent.AddMoreGuest -> {
@@ -52,39 +58,130 @@ class BookRoomViewModel @Inject constructor(
 
             is BookRoomEvent.SearchRooms -> {
                 val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                val startDate = LocalDate.parse(_bookRoomState.value.startDate,formatter)
-                val endDate = LocalDate.parse(_bookRoomState.value.endDate,formatter)
-                if (startDate.isBefore(LocalDate.now())){
-                    updateState { it.copy(snackBarMessage = "Has introducido una fecha anterior al dia de hoy", snackBarIsShown = true) }
-                }else if (startDate.isAfter(endDate) || startDate.isEqual(endDate)){
-                    updateState { it.copy(snackBarMessage = "Has seleccionado una fecha de salida anterior o igual a la fecha de entrada", snackBarIsShown = true) }
-                }else
+                val startDate = LocalDate.parse(_bookRoomState.value.startDate, formatter)
+                val endDate = LocalDate.parse(_bookRoomState.value.endDate, formatter)
+                if (startDate.isBefore(LocalDate.now())) {
+                    updateState {
+                        it.copy(
+                            snackBarMessage = "Has introducido una fecha anterior al dia de hoy",
+                            snackBarIsShown = true
+                        )
+                    }
+                } else if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
+                    updateState {
+                        it.copy(
+                            snackBarMessage = "Has seleccionado una fecha de salida anterior o igual a la fecha de entrada",
+                            snackBarIsShown = true
+                        )
+                    }
+                } else
                     viewModelScope.launch {
-                        searchAvailableRooms(startDate= startDate,endDate = endDate, numGuests = _bookRoomState.value.numberOfGuests)
+                        searchAvailableRooms(
+                            startDate = startDate,
+                            endDate = endDate,
+                            numGuests = _bookRoomState.value.numberOfGuests
+                        )
 
-                }
+                    }
             }
 
             is BookRoomEvent.ShowSnackBar -> {
-                updateState { it.copy(snackBarIsShown = true)
-                        it.copy(snackBarMessage = event.value)}
+                updateState {
+                    it.copy(snackBarIsShown = true)
+                    it.copy(snackBarMessage = event.value)
+                }
             }
-            is BookRoomEvent.HideSnackBar ->{
+
+            is BookRoomEvent.HideSnackBar -> {
                 updateState { it.copy(snackBarIsShown = !event.value) }
             }
 
             is BookRoomEvent.SelectRoom -> {
-                updateState { it.copy(selectedRoom = event.value) }
+
+                updateState {
+                    it.copy(
+                        selectedRoom = event.value,
+                        totalPrice = Reserva.calculatePrice(
+                            fechaIni = it.startDate,
+                            fechaFin = it.endDate,
+                            precioHab = event.value.precio
+                        )
+                    )
+                }
+                viewModelScope.launch {
+                    calculateCode()
+                    createBooking()
+                }
+
+
+            }
+
+            is BookRoomEvent.CreateBooking -> {
+
+                viewModelScope.launch {
+                 val bookingCreated = inserBookingOnBBDD()
+
+                if (bookingCreated) {
+                    updateState {
+                        it.copy(
+                            snackBarMessage = "Reserva introducida correctamente",
+                            snackBarIsShown = true
+                        )
+
+                    }
+                } else {
+                    updateState {
+                        it.copy(
+                            snackBarMessage = "No se ha podido introducir la reserva",
+                            snackBarIsShown = true
+                        )
+                    }
+                }
+                }
             }
         }
 
 
     }
 
+    private fun Date.formatDateToISO(): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+        sdf.timeZone = TimeZone.getTimeZone("UTC")
+        return sdf.format(this)
+    }
+
+    private suspend fun inserBookingOnBBDD() :Boolean {
+
+        try {
+              val bookingCreated = RetrofitInstance.api.createBooking(_bookRoomState.value.booking!!)
+            return  bookingCreated
+
+        } catch (e: Exception) {
+         return false
+        }
+
+    }
+
+
+    private fun createBooking() {
+        updateState {
+            it.copy(
+                booking = Reserva(
+                    fechaInicio = it.startDate!!,
+                    fechaFin = it.endDate!!,
+                    habitacion = it.selectedRoom!!.id.toString(),
+                    codigo = it.bookingCode,
+                    precio = it.totalPrice,
+                    usuario = "67aa1964acc7f4ca632c6f78"
+                ),
+            )
+        }
+    }
 
     fun onNavigationDone() {
         _navigateToChooseRoom.value = false  // Resetear estado de navegación
     }
+
     // Helper function to update the state safely
     private fun updateState(update: (BookRoomState) -> BookRoomState) {
         val currentState = _bookRoomState.value
@@ -101,8 +198,29 @@ class BookRoomViewModel @Inject constructor(
             snackBarIsShown = false,
             snackBarMessage = "This is an example text",
             listOfRoomBooks = listOf(),
-            selectedRoom = null
+            selectedRoom = null,
+            totalPrice = 0.0,
+            bookingCode = "",
+            userId = "67aa1964acc7f4ca632c6f78",
+            booking = null,
         )
+    }
+
+    private suspend fun calculateCode() {
+
+        try {
+            val codeResponse = RetrofitInstance.api.getCode()
+            val code = codeResponse.codigo
+            if (code.isEmpty()) {
+                updateState { it.copy(bookingCode = "RES000") }
+            } else {
+                val finalCode = "RES" + (code.removePrefix("RES").toInt() + 1)
+                updateState { it.copy(bookingCode = finalCode) }
+            }
+        } catch (e: Exception) {
+            print(e.message)
+        }
+
     }
 
     private fun searchAvailableRooms(startDate: LocalDate, endDate: LocalDate, numGuests: Int) {
@@ -119,16 +237,28 @@ class BookRoomViewModel @Inject constructor(
 
                 if (freeRooms.isEmpty()) {
                     updateState {
-                        it.copy(snackBarMessage = "No hay habitaciones disponibles", snackBarIsShown = true)
+                        it.copy(
+                            snackBarMessage = "No hay habitaciones disponibles",
+                            snackBarIsShown = true
+                        )
                     }
                 } else {
-                    updateState { it.copy(listOfRoomBooks =freeRooms) }
+                    updateState { it.copy(listOfRoomBooks = freeRooms) }
                     _navigateToChooseRoom.value = true  // Activa la navegación
-                    Log.d("habitaciones", "searchAvailableRooms: "+_bookRoomState.value.listOfRoomBooks.toString())
+                    Log.d(
+                        "habitaciones",
+                        "searchAvailableRooms: " + _bookRoomState.value.listOfRoomBooks.toString()
+                    )
                 }
             } catch (e: Exception) {
                 Log.e("BookRoomViewModel", "Error obteniendo habitaciones: ${e.message}")
-                updateState { it.copy(snackBarMessage = "Error obteniendo habitaciones", snackBarIsShown = true) }
+
+                updateState {
+                    it.copy(
+                        snackBarMessage = "Error obteniendo habitaciones",
+                        snackBarIsShown = true
+                    )
+                }
             }
         }
     }
@@ -136,7 +266,7 @@ class BookRoomViewModel @Inject constructor(
 }
 
 
-fun formateador(localDate: LocalDate):String{
+fun formateador(localDate: LocalDate): String {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     return localDate.format(formatter)
 }

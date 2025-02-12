@@ -28,14 +28,13 @@ import com.example.hotelperemaria.search_room.views.booking.BookRoomEvent
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 import com.example.hotelperemaria.search_room.views.widgets.DatePickerDialogCustom
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
 @Composable
 fun BookRoomsScreen(
     navController: NavController,
     viewModel: BookRoomViewModel
 ) {
     val bookRoomState by viewModel.bookRoomState.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
     val navigateToChooseRoom by viewModel.navigateToChooseRoom.collectAsState()
     LaunchedEffect(navigateToChooseRoom) {
         if (navigateToChooseRoom) {
@@ -44,9 +43,7 @@ fun BookRoomsScreen(
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ) { _ -> // Ignoramos el padding porque ya no lo usamos
+      // Ignoramos el padding porque ya no lo usamos
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
@@ -114,14 +111,9 @@ fun BookRoomsScreen(
 
                 })
 
-                SnackbarCustom(
-                    isShown = bookRoomState.snackBarIsShown,
-                    message = bookRoomState.snackBarMessage,
-                    hideSnackBar = { viewModel.onEvent(BookRoomEvent.HideSnackBar(bookRoomState.snackBarIsShown)) } ,
-                    snackbarHostState = snackbarHostState
-                )
+
             }
         }
-    }
+
 }
 
