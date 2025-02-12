@@ -24,7 +24,7 @@ fun SnackbarCustom(
                 message = message,
                 duration = SnackbarDuration.Short
             )
-            delay(3000) // Espera 3 segundos
+            delay(1500) // Espera 1500 segundos
             hideSnackBar()
         }
     }
@@ -38,25 +38,8 @@ fun SnackbarCustom(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            snackbar = { data ->
-                CustomSnackbar(data)
-            }
+
         )
     }
 }
 
-@Composable
-fun CustomSnackbar(snackbarData: SnackbarData) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.medium)
-            .background(Color(0xFF333333)) // Gris oscuro
-            .padding(16.dp)
-    ) {
-        Text(
-            text = snackbarData.visuals.message,
-            color = Color.White
-        )
-    }
-}

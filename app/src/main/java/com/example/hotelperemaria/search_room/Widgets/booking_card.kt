@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.hotelperemaria.rooms.model.Habitacion
@@ -57,7 +56,7 @@ fun HotelReservationCard(
 
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
-                    text = habitacion.nombre,
+                    text = habitacion.categoria,
                     style = MaterialTheme.typography.titleMedium,
                     color = white
                 )
@@ -74,8 +73,8 @@ fun HotelReservationCard(
 
                 Text(
                     text = "${habitacion.precio}€ / noche",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = uranianBlue
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = white
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -86,7 +85,8 @@ fun HotelReservationCard(
                         containerColor = lightGray.copy(alpha = 0.8f),
                         contentColor = white
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    shape = RoundedCornerShape(12.dp)
                 ) {
                     Text("Reservar ahora")
                 }

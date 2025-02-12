@@ -1,7 +1,6 @@
-import android.inputmethodservice.Keyboard
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,17 +15,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.MonetizationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.SmokingRooms
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,88 +45,116 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.SavedStateHandle
+import androidx.navigation.NavController
 import com.example.hotelperemaria.R
+import com.example.hotelperemaria.navigation.AppScreens
+import com.example.hotelperemaria.search_room.views.booking.BookRoomEvent
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 import com.example.hotelperemaria.ui.theme.darkGray
 import com.example.hotelperemaria.ui.theme.white
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun BookingDetailsView(viewModel: BookRoomViewModel) {
+fun BookingDetailsView(
+    navController:NavController,
+    viewModel: BookRoomViewModel) {
     val bookRoomState by viewModel.bookRoomState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+    Scaffold(
 
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.fondoreservas),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 32.dp),
-        verticalArrangement = Arrangement.spacedBy(40.dp) // Espaciado uniforme entre elementos
-    ) {
-
-        Text(
-            text = "Detalles de la Reserva",
-            color = white,
-            fontSize = 30.sp,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(alignment = Alignment.CenterHorizontally)
-
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(intrinsicSize = IntrinsicSize.Max),
-            horizontalArrangement = Arrangement.SpaceBetween
+    ) { _ ->
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            DateDetailItem(
-                label = "Fecha Entrada",
-                value = bookRoomState.startDate,
-                icon = Icons.Default.CalendarMonth,
-                modifier = Modifier.width(169.dp)
-
-            )
-
-            DateDetailItem(
-                label = "Fecha Salida",
-                value = bookRoomState.endDate,
-                icon = Icons.Default.CalendarMonth,
-                modifier = Modifier.width(169.dp)
+            Image(
+                painter = painterResource(id = R.drawable.fondoreservas),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
         }
 
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp, vertical = 32.dp),
+            verticalArrangement = Arrangement.spacedBy(40.dp) // Espaciado uniforme entre elementos
+        ) {
+
+            Text(
+                text = "Detalles de la Reserva",
+                color = white,
+                fontSize = 30.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.CenterHorizontally)
+
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(intrinsicSize = IntrinsicSize.Max),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                DateDetailItem(
+                    label = "Fecha Entrada",
+                    value = bookRoomState.startDate,
+                    icon = Icons.Default.CalendarMonth,
+                    modifier = Modifier.width(169.dp)
+
+                )
+
+                DateDetailItem(
+                    label = "Fecha Salida",
+                    value = bookRoomState.endDate,
+                    icon = Icons.Default.CalendarMonth,
+                    modifier = Modifier.width(169.dp)
+                )
+            }
 
 
-        BookingDetailItem(
-            label = "Número de Huéspedes",
-            value = bookRoomState.numberOfGuests.toString(),
-            icon = Icons.Default.Person,
-        )
 
-        BookingDetailItem(
-            label = "Habitacion Seleccionada",
-            value = bookRoomState.selectedRoom!!.nombre,
-            icon = Icons.Default.SmokingRooms,
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        ButtonCustom(modifier = Modifier.width(800.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF191936), // Fondo transparente para usar el gradiente
-                contentColor = white // Color del texto
-            ),
-            onClick = {}
-        )
+            BookingDetailItem(
+                label = "Número de Huéspedes",
+                value = bookRoomState.numberOfGuests.toString(),
+                icon = Icons.Default.Person,
+            )
+
+            BookingDetailItem(
+                label = "Habitacion Seleccionada",
+                value = bookRoomState.selectedRoom!!.nombre,
+                icon = Icons.Default.SmokingRooms,
+            )
+            BookingDetailItem(
+                label = "Precio Final",
+                value = bookRoomState.totalPrice.toString(),
+                icon = Icons.Default.MonetizationOn
+            )
+
+            ButtonCustom(modifier = Modifier.width(800.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF191936), // Fondo transparente para usar el gradiente
+                    contentColor = white // Color del texto
+                ),
+                onClick = {
+
+                    viewModel.onEvent(BookRoomEvent.CreateBooking)
+                    scope.launch {
+                        delay(timeMillis = 1100L)
+                        navController.navigate(AppScreens.homeScreen.route)
+
+                    }
+                }
+            )
+
+        }
     }
+
+
 }
 
 @Composable
