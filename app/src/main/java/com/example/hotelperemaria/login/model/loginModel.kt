@@ -8,6 +8,7 @@ data class UsuarioWrapper(
 )
 
 data class Usuario(
+    @SerializedName("_id") val id: String,
     @SerializedName("nombre") val nombre: String,
     @SerializedName("apellido1") val apellido1: String,
     @SerializedName("apellido2") val apellido2: String?,

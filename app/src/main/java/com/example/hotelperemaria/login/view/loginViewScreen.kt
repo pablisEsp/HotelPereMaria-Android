@@ -9,6 +9,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +47,7 @@ fun PantallaCompleta() {
                 label = { Text("Ingresa la contraseña")})
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(onClick = { /* Acción aquí */ }) {
+            Button(onClick = {  }) {
                 Text("Acceder")
             }
         }

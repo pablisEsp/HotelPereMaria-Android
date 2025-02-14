@@ -1,11 +1,14 @@
 package com.example.hotelperemaria.api
 
+import com.example.hotelperemaria.login.model.UsuarioWrapper
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.model.HabitacionWrapper
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.Objects
 
 interface ApiService {
     @GET("api/rooms/{codigo}")
@@ -17,7 +20,13 @@ interface ApiService {
     @GET("api/rooms") // Asegúrate de que este endpoint devuelve una lista de habitaciones
     suspend fun getHabitaciones(): List<Habitacion>
 
+    @POST("api/users/login")
+    suspend fun login(@Body request: LoginRequest): UsuarioWrapper
 
+    data class LoginRequest(
+        val email: String,
+        val password: String
+    )
 
 
     //Calls to th

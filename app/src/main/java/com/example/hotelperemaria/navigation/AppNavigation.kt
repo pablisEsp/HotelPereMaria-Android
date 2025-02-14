@@ -65,6 +65,5 @@ fun AppNavigation() {
                 Text("Error: Código de habitación no encontrado", color = Color.Red)
             }
         }
-
     }
 }
