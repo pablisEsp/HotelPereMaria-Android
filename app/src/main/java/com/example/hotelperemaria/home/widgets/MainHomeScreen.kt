@@ -1,6 +1,7 @@
 package com.example.hotelperemaria.home.widgets
 
 import BookRoomsScreen
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +14,14 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.SupervisedUserCircle
 import androidx.compose.material3.Card
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,12 +30,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
+import com.example.hotelperemaria.R
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 import kotlin.math.absoluteValue
+
 
 @Composable
 fun MainHomeScreen(
@@ -36,14 +47,12 @@ fun MainHomeScreen(
     navController: NavController,
     viewModelBookRoom: BookRoomViewModel,
 ) {
-    //val coroutineScope = rememberCoroutineScope()
-
     Box(modifier = Modifier.fillMaxSize()) {
+        // Paginación
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxSize(),
-
-            ) { page ->
+            modifier = Modifier.fillMaxSize()
+        ) { page ->
             Card(
                 Modifier
                     .fillMaxSize()
@@ -60,30 +69,57 @@ fun MainHomeScreen(
                         )
                     }
             ) {
-                if (page == 0) {
-                    BookRoomsScreen(navController, viewModelBookRoom)
-                } else if (page == 1) {
-                    Home()
-                } else {
-                    // ✅ Previene error de índice si `habitaciones` está vacío
-                    if (habitaciones.isNotEmpty() && page - 2 != habitaciones.size) {
-                        val habitacion = habitaciones[page - 2]
-                        //println("Habitación: $habitacion")
-                        HabitacionPage(habitacion = habitacion, navController = navController)
-                    } else {
-                        Text(
-                            text = "Cargando habitaciones...",
-                            modifier = Modifier.fillMaxSize(),
-                            color = Color.White
-                        )
+                when (page) {
+                    0 -> BookRoomsScreen(navController, viewModelBookRoom)
+                    1 -> Home()
+                    else -> {
+                        if (habitaciones.isNotEmpty() && page - 2 < habitaciones.size) {
+                            val habitacion = habitaciones[page - 2]
+                            HabitacionPage(habitacion = habitacion, navController = navController)
+                        } else {
+                            Text(
+                                text = "Cargando habitaciones...",
+                                modifier = Modifier.fillMaxSize(),
+                                color = Color.White
+                            )
+                        }
                     }
-
                 }
-
             }
         }
 
-        // Indicadores de página (dots)
+        if(pagerState.currentPage > 0){
+        // Botón superior izquierdo
+        IconButton(
+            onClick = { /* Acción del botón izquierdo */ },
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(top = 25.dp, end = 16.dp, start = 16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Book,
+                contentDescription = null,
+                tint = Color(0xFFffd78d),
+                modifier = Modifier.size(35.dp)
+            )
+        }}
+
+        // Botón superior derecho
+        IconButton(
+            onClick = { /* Acción del botón derecho */ },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 25.dp, end = 16.dp, start = 16.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.SupervisedUserCircle,
+                contentDescription = null,
+                tint = Color(0xFFffd78d),
+                modifier = Modifier.size(35.dp)
+            )
+        }
+
+        // Indicadores de página
         Row(
             Modifier
                 .wrapContentHeight()
