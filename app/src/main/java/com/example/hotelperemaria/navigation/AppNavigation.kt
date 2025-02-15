@@ -3,6 +3,7 @@
 package com.example.hotelperemaria.navigation
 import BookRoomsScreen
 import BookingDetailsView
+import LoginScreen
 import RoomDetailScreen
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
@@ -18,6 +19,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.hotelperemaria.home.HomeScreen
+import com.example.hotelperemaria.login.viewModel.LoginViewModel
+import com.example.hotelperemaria.register.view.RegisterScreen
 import com.example.hotelperemaria.search_room.views.ChoseRoomScreen
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 
@@ -25,17 +28,39 @@ import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 fun AppNavigation() {
     val viewModelBookRoom : BookRoomViewModel = hiltViewModel()
     val bookRoomState by viewModelBookRoom.bookRoomState.collectAsState()
+    val loginViewModel: LoginViewModel = hiltViewModel()
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppScreens.homeScreen.route) {
+    NavHost(navController = navController, startDestination = AppScreens.loginViewScreen.route) {
         // home view
         composable(route = AppScreens.homeScreen.route) {
             HomeScreen(navController, viewModelBookRoom = viewModelBookRoom)
         }
 
+
         // room search view
         composable(route = AppScreens.bookRoomsScreen.route) {
             BookRoomsScreen(navController = navController, viewModel = viewModelBookRoom)
             //lele
+        }
+
+        composable(route = AppScreens.loginViewScreen.route) {
+            LoginScreen(
+                viewModel = loginViewModel,
+                onLoginSuccess = {
+                    navController.navigate(AppScreens.bookRoomsScreen.route)
+                },
+                onRegisterClick = {
+                    navController.navigate(AppScreens.regiserViewScreen.route) // ← Ahora sí navega al registro
+                }
+            )
+        }
+
+        composable(route = AppScreens.regiserViewScreen.route) {
+            RegisterScreen(
+                onRegisterSuccess = {
+                    navController.navigate(AppScreens.bookRoomsScreen.route)
+                }
+            )
         }
 
         composable(route = AppScreens.choseRoomScreen.route) {
