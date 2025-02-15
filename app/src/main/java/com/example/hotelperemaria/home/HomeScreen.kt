@@ -1,6 +1,6 @@
 package com.example.hotelperemaria.home
 
-import PantallaInicioConTutorial
+import MainScreenPager
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -17,8 +17,8 @@ import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: RoomViewModel = hiltViewModel(),
-    viewModelBookRoom :BookRoomViewModel
+    viewModelBookRoom: BookRoomViewModel,
+    viewModel: RoomViewModel = hiltViewModel()
 ) {
     val uniqueRooms by viewModel.uniqueRooms.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
@@ -35,6 +35,6 @@ fun HomeScreen(
             CircularProgressIndicator()
         }
     } else {
-        PantallaInicioConTutorial(habitaciones = uniqueRooms, navController, viewModelBookRoom)
+        MainScreenPager(habitaciones = uniqueRooms, navController, viewModelBookRoom)
     }
 }
