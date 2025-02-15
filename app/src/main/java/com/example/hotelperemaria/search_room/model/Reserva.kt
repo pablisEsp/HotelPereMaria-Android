@@ -1,4 +1,4 @@
-package com.example.hotelperemaria
+package com.example.hotelperemaria.search_room.model
 
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat

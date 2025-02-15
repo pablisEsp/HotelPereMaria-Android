@@ -1,6 +1,6 @@
 package com.example.hotelperemaria.search_room.views.booking
 
-import com.example.hotelperemaria.Reserva
+import com.example.hotelperemaria.search_room.model.Reserva
 import com.example.hotelperemaria.rooms.model.Habitacion
 
 

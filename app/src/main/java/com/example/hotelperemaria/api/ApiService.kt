@@ -1,7 +1,7 @@
 package com.example.hotelperemaria.api
 
-import com.example.hotelperemaria.CodigoResponse
-import com.example.hotelperemaria.Reserva
+import com.example.hotelperemaria.search_room.model.CodigoResponse
+import com.example.hotelperemaria.search_room.model.Reserva
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.model.HabitacionWrapper
 import retrofit2.http.Body
