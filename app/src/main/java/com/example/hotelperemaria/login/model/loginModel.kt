@@ -1,6 +1,5 @@
 package com.example.hotelperemaria.login.model
 
-import com.example.hotelperemaria.rooms.model.Habitacion
 import com.google.gson.annotations.SerializedName
 
 data class UsuarioWrapper(
