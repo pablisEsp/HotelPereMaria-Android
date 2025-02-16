@@ -30,6 +30,7 @@ fun AppNavigation() {
     val bookRoomState by viewModelBookRoom.bookRoomState.collectAsState()
     val loginViewModel: LoginViewModel = hiltViewModel()
     val navController = rememberNavController()
+
     NavHost(navController = navController, startDestination = AppScreens.loginViewScreen.route) {
         // home view
         composable(route = AppScreens.homeScreen.route) {
@@ -58,7 +59,7 @@ fun AppNavigation() {
         composable(route = AppScreens.regiserViewScreen.route) {
             RegisterScreen(
                 onRegisterSuccess = {
-                    navController.navigate(AppScreens.bookRoomsScreen.route)
+                    navController.navigate(AppScreens.loginViewScreen.route)
                 }
             )
         }

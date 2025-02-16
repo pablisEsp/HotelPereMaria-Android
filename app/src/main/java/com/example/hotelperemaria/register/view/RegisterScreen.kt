@@ -12,15 +12,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.hotelperemaria.login.model.Usuario
+import com.example.hotelperemaria.login.viewModel.LoginViewModel
+import com.example.hotelperemaria.register.viewModel.RegisterState
+import com.example.hotelperemaria.register.viewModel.RegisterViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 @Composable
-fun RegisterScreen( onRegisterSuccess: (Usuario) -> Unit) {
+fun RegisterScreen(viewModel: RegisterViewModel = hiltViewModel(), onRegisterSuccess: (Usuario) -> Unit) {
     var nombre by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var apellido1 by remember { mutableStateOf("") }
@@ -30,7 +39,24 @@ fun RegisterScreen( onRegisterSuccess: (Usuario) -> Unit) {
     var password by remember { mutableStateOf("") }
     var fechaNacimiento by remember { mutableStateOf("") }
 
-    //val registerState by viewModel.registerState.collectAsState()
+    val registerState by viewModel.registerState.collectAsState()
+
+
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+    val datePickerDialog = android.app.DatePickerDialog(
+        context,
+        { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(selectedYear, selectedMonth, selectedDay)
+            fechaNacimiento = dateFormatter.format(selectedDate.time)
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
 
     Box(
         modifier = Modifier
@@ -112,14 +138,14 @@ fun RegisterScreen( onRegisterSuccess: (Usuario) -> Unit) {
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedTextField(
-                value = fechaNacimiento,
-                onValueChange = { fechaNacimiento = it },
-                label = { Text("Fecha de Nacimiento") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
+            Button(
+                onClick = { datePickerDialog.show() },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+            ) {
+                Text(text = if (fechaNacimiento.isNotEmpty()) fechaNacimiento else "Seleccionar Fecha de Nacimiento")
+            }
             Spacer(modifier = Modifier.height(8.dp))
 
             OutlinedTextField(
@@ -138,7 +164,7 @@ fun RegisterScreen( onRegisterSuccess: (Usuario) -> Unit) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = {  },
+                onClick = { viewModel.register(nombre, email, apellido1, apellido2, dniPasaporte, movil, password, fechaNacimiento) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
@@ -149,7 +175,7 @@ fun RegisterScreen( onRegisterSuccess: (Usuario) -> Unit) {
             }
 
             // Mostrar estado de carga o error
-            /*
+
             when (registerState) {
                 is RegisterState.Loading -> CircularProgressIndicator()
                 is RegisterState.Error -> {
@@ -165,8 +191,6 @@ fun RegisterScreen( onRegisterSuccess: (Usuario) -> Unit) {
                 }
                 else -> {}
             }
-
-             */
         }
     }
 }
