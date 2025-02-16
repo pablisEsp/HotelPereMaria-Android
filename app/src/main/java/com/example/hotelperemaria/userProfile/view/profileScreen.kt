@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,42 +34,6 @@ fun UserProfileScreen(viewModel: UserProfileViewModel = hiltViewModel(), onProfi
             .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center
     ) {
-
-        /*
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp)
-                .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(16.dp))
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                imageVector = Icons.Default.AccountCircle,
-                contentDescription = "Profile Icon",
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(80.dp)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Perfil de Usuario",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-
-            UserProfileField(label = "Nombre", value = userProfile.nombre)
-            UserProfileField(label = "Apellido 1", value = userProfile.apellido1)
-            UserProfileField(label = "Apellido 2", value = userProfile.apellido2)
-            UserProfileField(label = "Email", value = userProfile.email)
-            UserProfileField(label = "Móvil", value = userProfile.movil)
-            UserProfileField(label = "DNI/Pasaporte", value = userProfile.dniPasaporte)
-            UserProfileField(label = "Fecha de Nacimiento", value = userProfile.fechaNacimiento)
-        }
-
-         */
 
         if (userProfile != null) {
             Column(
@@ -103,6 +68,19 @@ fun UserProfileScreen(viewModel: UserProfileViewModel = hiltViewModel(), onProfi
                 UserProfileField(label = "Móvil", value = userProfile.movil)
                 UserProfileField(label = "DNI/Pasaporte", value = userProfile.dniPasaporte)
                 UserProfileField(label = "Fecha de Nacimiento", value = userProfile.fechaNacimiento)
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Button(
+                    onClick = { onProfileSuccess() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                ) {
+                    Text(text = "Vovler al menu", fontSize = 18.sp)
+                }
             }
         } else {
             CircularProgressIndicator()
@@ -116,6 +94,14 @@ fun UserProfileField(label: String, value: String) {
         Text(text = label, fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.Gray)
         Spacer(modifier = Modifier.height(2.dp))
         Text(text = value, fontSize = 18.sp, color = Color.Black)
+    }
+}
+
+@Preview(showBackground = true, name = "Login Preview", showSystemUi = true)
+@Composable
+fun PreviewLoginScreen() {
+    MaterialTheme {
+        UserProfileScreen {  }
     }
 }
 

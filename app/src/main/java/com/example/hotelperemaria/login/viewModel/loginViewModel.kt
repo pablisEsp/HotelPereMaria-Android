@@ -15,8 +15,6 @@ import javax.inject.Inject
 
 class LoginViewModel @Inject constructor() : ViewModel() {
 
-    var user_email: String = Config.email_user
-
     private val _loginState = MutableStateFlow<LoginState>(LoginState.Idle)
     val loginState: StateFlow<LoginState> = _loginState
 
@@ -31,7 +29,7 @@ class LoginViewModel @Inject constructor() : ViewModel() {
                     val token = response.body()?.data?.token
                     if (!token.isNullOrEmpty()) {
                         _loginState.value = LoginState.Success(token)
-                        user_email = email
+                        Config.email_user = email
                     } else {
                         _loginState.value = LoginState.Error("Token no recibido")
                     }

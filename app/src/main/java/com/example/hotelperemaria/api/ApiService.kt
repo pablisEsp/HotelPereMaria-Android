@@ -1,15 +1,10 @@
 package com.example.hotelperemaria.api
 
 import com.example.hotelperemaria.login.model.Usuario
-import com.example.hotelperemaria.login.model.UsuarioWrapper
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.model.HabitacionWrapper
-import dagger.Module
-import dagger.Provides
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -59,9 +54,6 @@ interface ApiService {
 
     @POST("api/users/getOne")
     suspend fun getUserProfile(@Body request: ProfileRequest): Usuario
-
-    //@POST("api/users/getOne")
-    //suspend fun getUserProfile(@Body email: String): Usuario
 
     //Calls to th
 

@@ -1,5 +1,6 @@
 package com.example.hotelperemaria.userProfile.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotelperemaria.api.ProfileRequest
@@ -24,6 +25,7 @@ class UserProfileViewModel : ViewModel() {
 
     private suspend fun getUserProfile() {
 
+        Log.d("Email de prueba", Config.email_user)
         try {
             val response = apiService.getUserProfile(ProfileRequest(Config.email_user))
             _userProfile.value = response
