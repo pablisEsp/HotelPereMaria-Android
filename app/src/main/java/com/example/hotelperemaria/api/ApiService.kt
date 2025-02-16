@@ -57,11 +57,9 @@ interface ApiService {
     @POST("api/users/register")
     suspend fun register(@Body request: RegisterRequest): Response<RegisterResponse>
 
-    @POST("api/users/getOne")
-    suspend fun getUserProfile(@Body request: ProfileRequest): Usuario
 
-    //@POST("api/users/getOne")
-    //suspend fun getUserProfile(@Body email: String): Usuario
+    @POST("api/users/getOne")
+    suspend fun getUserProfile(@Body email: String): Usuario
 
     //Calls to th
 

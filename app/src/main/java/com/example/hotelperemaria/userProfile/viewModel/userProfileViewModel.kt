@@ -25,7 +25,7 @@ class UserProfileViewModel : ViewModel() {
     private suspend fun getUserProfile() {
 
         try {
-            val response = apiService.getUserProfile(ProfileRequest(Config.email_user))
+            val response = apiService.getUserProfile(Config.email_user)
             _userProfile.value = response
         } catch (e: Exception) {
             e.printStackTrace()
