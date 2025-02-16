@@ -21,6 +21,7 @@ import androidx.navigation.navArgument
 import com.example.hotelperemaria.home.HomeScreen
 import com.example.hotelperemaria.login.viewModel.LoginViewModel
 import com.example.hotelperemaria.register.view.RegisterScreen
+import com.example.hotelperemaria.rooms.viewmodel.RoomViewModel
 import com.example.hotelperemaria.search_room.views.ChoseRoomScreen
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 import com.example.hotelperemaria.userProfile.view.UserProfileScreen
@@ -31,11 +32,12 @@ fun AppNavigation() {
     val bookRoomState by viewModelBookRoom.bookRoomState.collectAsState()
     val loginViewModel: LoginViewModel = hiltViewModel()
     val navController = rememberNavController()
+    val roomViewModel: RoomViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = AppScreens.loginViewScreen.route) {
         // home view
         composable(route = AppScreens.homeScreen.route) {
-            HomeScreen(navController, viewModelBookRoom = viewModelBookRoom)
+            HomeScreen(navController, viewModelBookRoom = viewModelBookRoom, viewModel = roomViewModel)
         }
 
 
