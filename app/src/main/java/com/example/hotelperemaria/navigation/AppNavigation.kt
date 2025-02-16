@@ -1,6 +1,7 @@
 @file:Suppress("UNREACHABLE_CODE")
 
 package com.example.hotelperemaria.navigation
+
 import BookRoomsScreen
 import BookingDetailsView
 import LoginScreen
@@ -41,22 +42,19 @@ fun AppNavigation() {
     val bookRoomState by viewModelBookRoom.bookRoomState.collectAsState()
     val loginViewModel: LoginViewModel = hiltViewModel()
     val navController = rememberNavController()
-    Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    ) {  _ ->
-
-        NavHost(navController = navController, startDestination = AppScreens.homeScreen.route) {
-            // home view
-            composable(route = AppScreens.homeScreen.route) {
-                HomeScreen(navController, viewModelBookRoom = viewModelBookRoom)
-            }
     val roomViewModel: RoomViewModel = hiltViewModel()
 
-    NavHost(navController = navController, startDestination = AppScreens.loginViewScreen.route) {
-        // home view
-        composable(route = AppScreens.homeScreen.route) {
-            HomeScreen(navController, viewModelBookRoom = viewModelBookRoom, viewModel = roomViewModel)
-        }
+    Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }) { _ ->
+
+        NavHost(navController = navController, startDestination = AppScreens.loginViewScreen.route) {
+            // home view
+            composable(route = AppScreens.homeScreen.route) {
+                HomeScreen(
+                    navController,
+                    viewModelBookRoom = viewModelBookRoom,
+                    viewModelRoom = roomViewModel
+                )
+            }
 
             // room search view
             composable(route = AppScreens.bookRoomsScreen.route) {
@@ -73,41 +71,35 @@ fun AppNavigation() {
                     viewModel = viewModelBookRoom
                 )
             }
-        composable(route = AppScreens.loginViewScreen.route) {
-            LoginScreen(
-                viewModel = loginViewModel,
-                onLoginSuccess = {
+            composable(route = AppScreens.loginViewScreen.route) {
+                LoginScreen(viewModel = loginViewModel, onLoginSuccess = {
                     navController.navigate(AppScreens.profileViewScreen.route)
-                },
-                onRegisterClick = {
+                }, onRegisterClick = {
                     navController.navigate(AppScreens.regiserViewScreen.route) // ← Ahora sí navega al registro
-                }
-            )
-        }
+                })
+            }
 
-        composable(route = AppScreens.regiserViewScreen.route) {
-            RegisterScreen(
-                onRegisterSuccess = {
+            composable(route = AppScreens.regiserViewScreen.route) {
+                RegisterScreen(onRegisterSuccess = {
                     navController.navigate(AppScreens.loginViewScreen.route)
-                }
-            )
-        }
+                })
+            }
 
-        composable(route =AppScreens.profileViewScreen.route){
-            UserProfileScreen(
-                onProfileSuccess = {
+            composable(route = AppScreens.profileViewScreen.route) {
+                UserProfileScreen(onProfileSuccess = {
                     navController.navigate(AppScreens.homeScreen.route)
-                }
-            )
-        }
+                })
+            }
 
-        composable(route = AppScreens.choseRoomScreen.route) {
-            ChoseRoomScreen(
-                navController = navController,
-                onRoomClick = { Room -> Unit},
-                modifier = Modifier,
-                scrollState = rememberLazyListState() ,
-                viewModel = viewModelBookRoom)}
+            composable(route = AppScreens.choseRoomScreen.route) {
+                ChoseRoomScreen(
+                    navController = navController,
+                    onRoomClick = { Room -> Unit },
+                    modifier = Modifier,
+                    scrollState = rememberLazyListState(),
+                    viewModel = viewModelBookRoom
+                )
+            }
 
             composable(route = AppScreens.viewDetailsBooking.route) {
                 BookingDetailsView(navController, viewModelBookRoom)
@@ -132,10 +124,11 @@ fun AppNavigation() {
         SnackbarCustom(
             isShown = bookRoomState.snackBarIsShown,
             message = bookRoomState.snackBarMessage,
-            hideSnackBar = { viewModelBookRoom.onEvent(BookRoomEvent.HideSnackBar(bookRoomState.snackBarIsShown)) } ,
+            hideSnackBar = { viewModelBookRoom.onEvent(BookRoomEvent.HideSnackBar(bookRoomState.snackBarIsShown)) },
             snackbarHostState = snackbarHostState
         )
     }
 
 
 }
+

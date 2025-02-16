@@ -27,7 +27,7 @@ class UserProfileViewModel : ViewModel() {
 
         Log.d("Email de prueba", Config.email_user)
         try {
-            val response = apiService.getUserProfile(Config.email_user)
+            val response = apiService.getUserProfile(ProfileRequest(Config.email_user))
             _userProfile.value = response
         } catch (e: Exception) {
             e.printStackTrace()

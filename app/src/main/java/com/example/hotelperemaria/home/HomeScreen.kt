@@ -18,7 +18,7 @@ import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 fun HomeScreen(
     navController: NavController,
     viewModelBookRoom: BookRoomViewModel,
-    viewModelRoom: RoomViewModel = hiltViewModel()
+    viewModelRoom: RoomViewModel
 ) {
     val uniqueRooms by viewModelRoom.uniqueRooms.collectAsState()
     val isLoading by viewModelRoom.isLoading.collectAsState()
