@@ -5,10 +5,15 @@ import com.example.hotelperemaria.search_room.model.Reserva
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.model.HabitacionWrapper
 import retrofit2.http.Body
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+
+data class LoginRequest(val email: String, val password: String)
+data class LoginResponse(val error: String?, val data: TokenData?)
+data class TokenData(val token: String)
 
 interface ApiService {
     @GET("api/rooms/{codigo}")
@@ -20,8 +25,8 @@ interface ApiService {
     @GET("api/rooms") // Asegúrate de que este endpoint devuelve una lista de habitaciones
     suspend fun getHabitaciones(): List<Habitacion>
 
-
-
+    @POST("api/users/login")
+    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     //Calls to the bookings side
 

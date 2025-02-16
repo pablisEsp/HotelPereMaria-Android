@@ -4,6 +4,7 @@ package com.example.hotelperemaria.navigation
 
 import BookRoomsScreen
 import BookingDetailsView
+import LoginScreen
 import RoomDetailScreen
 import SnackbarCustom
 import android.annotation.SuppressLint
@@ -25,6 +26,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.hotelperemaria.home.HomeScreen
+import com.example.hotelperemaria.login.viewModel.LoginViewModel
+import com.example.hotelperemaria.register.view.RegisterScreen
 import com.example.hotelperemaria.search_room.views.ChoseRoomScreen
 import com.example.hotelperemaria.search_room.views.booking.BookRoomEvent
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
@@ -34,6 +37,7 @@ fun AppNavigation() {
     val snackbarHostState = remember { SnackbarHostState() }
     val viewModelBookRoom: BookRoomViewModel = hiltViewModel()
     val bookRoomState by viewModelBookRoom.bookRoomState.collectAsState()
+    val loginViewModel: LoginViewModel = hiltViewModel()
     val navController = rememberNavController()
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
@@ -60,6 +64,33 @@ fun AppNavigation() {
                     viewModel = viewModelBookRoom
                 )
             }
+        composable(route = AppScreens.loginViewScreen.route) {
+            LoginScreen(
+                viewModel = loginViewModel,
+                onLoginSuccess = {
+                    navController.navigate(AppScreens.bookRoomsScreen.route)
+                },
+                onRegisterClick = {
+                    navController.navigate(AppScreens.regiserViewScreen.route) // ← Ahora sí navega al registro
+                }
+            )
+        }
+
+        composable(route = AppScreens.regiserViewScreen.route) {
+            RegisterScreen(
+                onRegisterSuccess = {
+                    navController.navigate(AppScreens.bookRoomsScreen.route)
+                }
+            )
+        }
+
+        composable(route = AppScreens.choseRoomScreen.route) {
+            ChoseRoomScreen(
+                navController = navController,
+                onRoomClick = { Room -> Unit},
+                modifier = Modifier,
+                scrollState = rememberLazyListState() ,
+                viewModel = viewModelBookRoom)}
 
             composable(route = AppScreens.viewDetailsBooking.route) {
                 BookingDetailsView(navController, viewModelBookRoom)
