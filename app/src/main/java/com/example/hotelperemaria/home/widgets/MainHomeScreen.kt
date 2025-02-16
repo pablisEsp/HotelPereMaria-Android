@@ -35,9 +35,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
+import com.example.hotelperemaria.navigation.AppScreens
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.viewmodel.RoomViewModel
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
+import com.example.hotelperemaria.ui.theme.white
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
@@ -111,7 +113,7 @@ fun MainHomeScreen(
                 Icon(
                     imageVector = Icons.Default.Book,
                     contentDescription = "Ir a la primera página",
-                    tint = Color(0xFFffd78d),
+                    tint = Color.White,
                     modifier = Modifier.size(35.dp)
                 )
             }
@@ -119,7 +121,9 @@ fun MainHomeScreen(
 
         // Botón superior derecho
         IconButton(
-            onClick = { /* Acción del botón derecho */ },
+            onClick = {
+                navController.navigate(AppScreens.profileViewScreen.route)
+            },
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(top = 25.dp, end = 16.dp, start = 16.dp)
@@ -127,7 +131,7 @@ fun MainHomeScreen(
             Icon(
                 imageVector = Icons.Default.SupervisedUserCircle,
                 contentDescription = null,
-                tint = Color(0xFFffd78d),
+                tint = Color.White,
                 modifier = Modifier.size(35.dp)
             )
         }

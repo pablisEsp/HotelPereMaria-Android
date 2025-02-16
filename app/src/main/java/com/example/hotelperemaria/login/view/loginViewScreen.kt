@@ -30,8 +30,8 @@ import com.example.hotelperemaria.navigation.AppScreens
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = hiltViewModel(), onLoginSuccess: (String) -> Unit,
                 onRegisterClick: () -> Unit) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("admin@gmail.com") }
+    var password by remember { mutableStateOf("admin1") }
     val loginState by viewModel.loginState.collectAsState()
 
     Box(

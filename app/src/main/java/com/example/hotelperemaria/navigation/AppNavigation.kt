@@ -59,7 +59,6 @@ fun AppNavigation() {
             // room search view
             composable(route = AppScreens.bookRoomsScreen.route) {
                 BookRoomsScreen(navController = navController, viewModel = viewModelBookRoom)
-                //lele
             }
 
             composable(route = AppScreens.choseRoomScreen.route) {
@@ -73,7 +72,7 @@ fun AppNavigation() {
             }
             composable(route = AppScreens.loginViewScreen.route) {
                 LoginScreen(viewModel = loginViewModel, onLoginSuccess = {
-                    navController.navigate(AppScreens.profileViewScreen.route)
+                    navController.navigate(AppScreens.homeScreen.route)
                 }, onRegisterClick = {
                     navController.navigate(AppScreens.regiserViewScreen.route) // ← Ahora sí navega al registro
                 })
