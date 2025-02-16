@@ -23,6 +23,7 @@ import com.example.hotelperemaria.login.viewModel.LoginViewModel
 import com.example.hotelperemaria.register.view.RegisterScreen
 import com.example.hotelperemaria.search_room.views.ChoseRoomScreen
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
+import com.example.hotelperemaria.userProfile.view.UserProfileScreen
 
 @Composable
 fun AppNavigation() {
@@ -48,7 +49,7 @@ fun AppNavigation() {
             LoginScreen(
                 viewModel = loginViewModel,
                 onLoginSuccess = {
-                    navController.navigate(AppScreens.bookRoomsScreen.route)
+                    navController.navigate(AppScreens.profileViewScreen.route)
                 },
                 onRegisterClick = {
                     navController.navigate(AppScreens.regiserViewScreen.route) // ← Ahora sí navega al registro
@@ -60,6 +61,14 @@ fun AppNavigation() {
             RegisterScreen(
                 onRegisterSuccess = {
                     navController.navigate(AppScreens.loginViewScreen.route)
+                }
+            )
+        }
+
+        composable(route =AppScreens.profileViewScreen.route){
+            UserProfileScreen(
+                onProfileSuccess = {
+                    navController.navigate(AppScreens.homeScreen.route)
                 }
             )
         }

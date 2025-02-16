@@ -4,6 +4,8 @@ import com.example.hotelperemaria.login.model.Usuario
 import com.example.hotelperemaria.login.model.UsuarioWrapper
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.model.HabitacionWrapper
+import dagger.Module
+import dagger.Provides
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -18,6 +20,10 @@ data class LoginRequest(val email: String, val password: String)
 data class LoginResponse(val error: String?, val data: TokenData?)
 data class TokenData(val token: String)
 
+data class ProfileRequest(
+    val email: String
+)
+
 //Datos obtenidos del view que serán mandados a la api paraa posteriormente crear un nuevo usuario
 data class RegisterRequest(
     val nombre: String,
@@ -29,6 +35,8 @@ data class RegisterRequest(
     val password: String,
     val fechaNacimiento: String
 )
+
+
 
 // Obtenemos la respuesta del registro
 data class RegisterResponse(val error: String?, val data: Usuario?)
@@ -48,6 +56,12 @@ interface ApiService {
 
     @POST("api/users/register")
     suspend fun register(@Body request: RegisterRequest): Response<RegisterResponse>
+
+    @POST("api/users/getOne")
+    suspend fun getUserProfile(@Body request: ProfileRequest): Usuario
+
+    //@POST("api/users/getOne")
+    //suspend fun getUserProfile(@Body email: String): Usuario
 
     //Calls to th
 
