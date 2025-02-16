@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,9 +39,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.example.hotelperemaria.navigation.AppScreens
 import com.example.hotelperemaria.rooms.model.Servicio
 import com.example.hotelperemaria.rooms.model.getPainterFromName
 import com.example.hotelperemaria.rooms.model.mapServicios
@@ -49,12 +52,19 @@ import com.example.hotelperemaria.ui.theme.lightBlack
 import com.example.hotelperemaria.ui.theme.silver
 import com.example.hotelperemaria.ui.theme.white
 import com.example.hotelperemaria.utils.Config.SERVER_IP
+import kotlinx.coroutines.launch
 
 @Composable
-fun RoomDetailScreen(idHabitacion: String, navController: NavController) {
-    val roomViewModel: RoomViewModel = viewModel()
+fun RoomDetailScreen(
+    idHabitacion: String,
+    navController: NavController,
+    roomViewModel: RoomViewModel = hiltViewModel() // 🔥 Usamos Hilt para inyectar el ViewModel
+
+) {
     val habitacion by roomViewModel.habitacion.collectAsState()
     val isLoading by roomViewModel.isLoading.collectAsState()
+    val coroutineScope = rememberCoroutineScope() // Necesario para lanzar animaciones
+
 
     LaunchedEffect(idHabitacion) {
         roomViewModel.fetchHabitacion(idHabitacion)
@@ -123,11 +133,20 @@ fun RoomDetailScreen(idHabitacion: String, navController: NavController) {
                     color = white
                 )
                 Button(
-                    onClick = { /* Navegar a reserva */ },
+                    onClick = {
+                        // Guardamos el valor 0 para que la pantalla anterior sepa a qué página ir
+                        navController.previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set("selectedPage", 0)
+                        // Regresamos a la pantalla anterior
+                        navController.popBackStack()
+                    },
                     shape = CircleShape
                 ) {
                     Text(text = "Reservar ahora", fontSize = 18.sp, color = white)
                 }
+
+
             }
         }
     }
@@ -162,7 +181,13 @@ fun RoomServices(services: List<Servicio>) {
                         modifier = Modifier.size(22.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text(text = servicio.nombre, fontSize = 14.sp, fontWeight = FontWeight.Medium, overflow = TextOverflow.Ellipsis)
+                    Text(
+                        text = servicio.nombre,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium,
+                        overflow = TextOverflow.Ellipsis,
+                        color = lightBlack
+                    )
                 }
             }
         }
@@ -179,7 +204,7 @@ fun ImageCarousel(images: List<String>) {
             .height(300.dp)
             .padding(top = 20.dp)
             .padding(10.dp)
-            .clip(RoundedCornerShape(16.dp)) // 🔥 Aplica esquinas redondeadas
+            .clip(RoundedCornerShape(16.dp)) // Aplica esquinas redondeadas
 
     ) {
         HorizontalPager(
@@ -196,8 +221,8 @@ fun ImageCarousel(images: List<String>) {
 
         Row(
             Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp),
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
             horizontalArrangement = Arrangement.Center
 
         ) {
@@ -209,7 +234,7 @@ fun ImageCarousel(images: List<String>) {
                             if (index == pagerState.currentPage) white else Color.Gray,
                             shape = CircleShape
                         )
-                        .padding(horizontal = 4.dp)
+                        .padding(horizontal = 8.dp)
                 )
             }
         }

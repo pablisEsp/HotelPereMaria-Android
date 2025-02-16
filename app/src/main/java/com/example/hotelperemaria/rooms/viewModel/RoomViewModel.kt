@@ -1,12 +1,15 @@
 package com.example.hotelperemaria.rooms.viewmodel
 
 import android.util.Log
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.pager.PagerState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotelperemaria.api.RetrofitInstance
 import com.example.hotelperemaria.rooms.model.Habitacion
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -64,20 +67,20 @@ class RoomViewModel @Inject constructor(
         }
     }
 
-
-
     fun fetchHabitaciones() {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 val response = RetrofitInstance.api.getHabitaciones()
                 _habitaciones.value = response
-                Log.d("API_RESPONSE", "Habitaciones recibidas: ${response.size}") // 🔍 Log para depurar
+                Log.d("API_RESPONSE", "Habitaciones recibidas: ${response.size}") // Log para depurar
             } catch (e: Exception) {
-                Log.e("API_ERROR", "Error al obtener habitaciones", e) // 🚨 Log de error
+                Log.e("API_ERROR", "Error al obtener habitaciones", e) // Log de error
             } finally {
                 _isLoading.value = false
             }
         }
     }
+
 }
+

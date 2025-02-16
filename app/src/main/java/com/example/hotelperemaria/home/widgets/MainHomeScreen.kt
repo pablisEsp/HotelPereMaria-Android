@@ -1,7 +1,8 @@
 package com.example.hotelperemaria.home.widgets
 
 import BookRoomsScreen
-import android.annotation.SuppressLint
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,25 +19,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.SupervisedUserCircle
 import androidx.compose.material3.Card
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
-import com.example.hotelperemaria.R
 import com.example.hotelperemaria.rooms.model.Habitacion
+import com.example.hotelperemaria.rooms.viewmodel.RoomViewModel
 import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 
@@ -46,7 +48,11 @@ fun MainHomeScreen(
     pagerState: PagerState,
     navController: NavController,
     viewModelBookRoom: BookRoomViewModel,
+    viewModelRoom: RoomViewModel,
 ) {
+
+    val coroutineScope = rememberCoroutineScope() // Definir el scope para corrutinas
+
     Box(modifier = Modifier.fillMaxSize()) {
         // Paginación
         HorizontalPager(
@@ -75,7 +81,7 @@ fun MainHomeScreen(
                     else -> {
                         if (habitaciones.isNotEmpty() && page - 2 < habitaciones.size) {
                             val habitacion = habitaciones[page - 2]
-                            HabitacionPage(habitacion = habitacion, navController = navController)
+                            HabitacionPage(habitacion = habitacion, navController = navController, viewModelRoom, pagerState)
                         } else {
                             Text(
                                 text = "Cargando habitaciones...",
@@ -88,21 +94,28 @@ fun MainHomeScreen(
             }
         }
 
-        if(pagerState.currentPage > 0){
-        // Botón superior izquierdo
-        IconButton(
-            onClick = { /* Acción del botón izquierdo */ },
-            modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(top = 25.dp, end = 16.dp, start = 16.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Book,
-                contentDescription = null,
-                tint = Color(0xFFffd78d),
-                modifier = Modifier.size(35.dp)
-            )
-        }}
+        if (pagerState.currentPage > 0) {
+            // Botón superior izquierdo para ir a la primera página
+            IconButton(
+                onClick = {
+                    coroutineScope.launch {
+                        for (i in pagerState.currentPage downTo 0) {
+                            pagerState.animateScrollToPage(i, animationSpec = tween(durationMillis = 150))
+                        }
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(top = 25.dp, end = 16.dp, start = 16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Book,
+                    contentDescription = "Ir a la primera página",
+                    tint = Color(0xFFffd78d),
+                    modifier = Modifier.size(35.dp)
+                )
+            }
+        }
 
         // Botón superior derecho
         IconButton(

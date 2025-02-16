@@ -18,15 +18,15 @@ import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 fun HomeScreen(
     navController: NavController,
     viewModelBookRoom: BookRoomViewModel,
-    viewModel: RoomViewModel = hiltViewModel()
+    viewModelRoom: RoomViewModel = hiltViewModel()
 ) {
-    val uniqueRooms by viewModel.uniqueRooms.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
+    val uniqueRooms by viewModelRoom.uniqueRooms.collectAsState()
+    val isLoading by viewModelRoom.isLoading.collectAsState()
 
     // Ejecutar la llamada a la API solo cuando la pantalla se carga, esto seria mejor manejarlo en la view model pablo
     LaunchedEffect(Unit) {
         if (uniqueRooms.isEmpty()) { // Evita llamadas innecesarias
-            viewModel.fetchUniqueRooms()
+            viewModelRoom.fetchUniqueRooms()
         }
     }
 
@@ -35,6 +35,6 @@ fun HomeScreen(
             CircularProgressIndicator()
         }
     } else {
-        MainScreenPager(habitaciones = uniqueRooms, navController, viewModelBookRoom)
+        MainScreenPager(habitaciones = uniqueRooms, navController, viewModelBookRoom, viewModelRoom)
     }
 }
