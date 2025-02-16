@@ -1,10 +1,12 @@
 package com.example.hotelperemaria.api
 
+import com.example.hotelperemaria.search_room.model.CodigoResponse
+import com.example.hotelperemaria.search_room.model.Reserva
 import com.example.hotelperemaria.login.model.Usuario
 import com.example.hotelperemaria.rooms.model.Habitacion
 import com.example.hotelperemaria.rooms.model.HabitacionWrapper
-import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -64,6 +66,15 @@ interface ApiService {
         @Query("enddate") endDate: String,
         @Query("numGuest") numGuest: Int
     ): List<Habitacion>
+
+    @GET("api/bookings/getCode")
+    suspend fun getCode(): CodigoResponse
+
+    @POST("api/bookings/createBooking")
+    suspend fun createBooking(
+        @Body reserva : Reserva
+    ): Boolean
+
 
 }
 

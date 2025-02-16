@@ -11,4 +11,5 @@ sealed class BookRoomEvent {
     data class HideSnackBar(val value: Boolean): BookRoomEvent()
     data object SearchRooms: BookRoomEvent()
     data class SelectRoom(val value: Habitacion) : BookRoomEvent()
+    data object CreateBooking :BookRoomEvent()
 }

@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.hotelperemaria.ui.theme.white
 
 @Composable
 fun GuestSelector(
@@ -50,14 +51,14 @@ fun GuestSelector(
             Icon(
                 imageVector = Icons.Default.Remove,
                 contentDescription = "Disminuir huespedes",
-                tint = Color(0xFF36454F),
+                tint = white,
             )
         }
 
         // Mostrar el nÃºmero de huÃ©spedes
         Text(
             text = "$guestCount",
-            color = Color(0xFF36454F),
+            color = white,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
@@ -75,7 +76,7 @@ fun GuestSelector(
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Aumentar huespedes",
-                tint = Color(0xFF36454F),
+                tint = white,
 
             )
         }

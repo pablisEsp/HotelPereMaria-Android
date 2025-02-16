@@ -9,13 +9,13 @@ import com.example.hotelperemaria.ui.theme.white
 import com.example.hotelperemaria.ui.theme.whitesmoke
 
 val colorsOutfield = TextFieldColors(
-disabledContainerColor = darkGray.copy(alpha = 0.8f),
+disabledContainerColor =Color.Transparent,
 focusedTextColor = white,
 unfocusedTextColor = white,
 disabledTextColor = white,
 errorTextColor = Color.Red, // Magenta
-focusedContainerColor = lightGray.copy(alpha = 0.8f), // Naranja coral oscuro
-unfocusedContainerColor = darkGray.copy(alpha = 0.8f), // Azul oscuro
+focusedContainerColor = Color.Transparent, // Naranja coral oscuro
+unfocusedContainerColor = Color.Transparent, // Azul oscuro
 errorContainerColor = Color.Magenta,
 cursorColor = white,
 errorCursorColor = Color.Red,

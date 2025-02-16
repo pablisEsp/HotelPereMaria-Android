@@ -1,6 +1,6 @@
 package com.example.hotelperemaria.home
 
-import PantallaInicioConTutorial
+import MainScreenPager
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -17,16 +17,16 @@ import com.example.hotelperemaria.search_room.views.booking.BookRoomViewModel
 @Composable
 fun HomeScreen(
     navController: NavController,
-    viewModel: RoomViewModel = hiltViewModel(),
-    viewModelBookRoom :BookRoomViewModel
+    viewModelBookRoom: BookRoomViewModel,
+    viewModelRoom: RoomViewModel = hiltViewModel()
 ) {
-    val uniqueRooms by viewModel.uniqueRooms.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
+    val uniqueRooms by viewModelRoom.uniqueRooms.collectAsState()
+    val isLoading by viewModelRoom.isLoading.collectAsState()
 
-    // Ejecutar la llamada a la API solo cuando la pantalla se carga hh
+    // Ejecutar la llamada a la API solo cuando la pantalla se carga, esto seria mejor manejarlo en la view model pablo
     LaunchedEffect(Unit) {
         if (uniqueRooms.isEmpty()) { // Evita llamadas innecesarias
-            viewModel.fetchUniqueRooms()
+            viewModelRoom.fetchUniqueRooms()
         }
     }
 
@@ -35,6 +35,6 @@ fun HomeScreen(
             CircularProgressIndicator()
         }
     } else {
-        PantallaInicioConTutorial(habitaciones = uniqueRooms, navController, viewModelBookRoom)
+        MainScreenPager(habitaciones = uniqueRooms, navController, viewModelBookRoom, viewModelRoom)
     }
 }

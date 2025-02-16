@@ -48,6 +48,7 @@ fun ChoseRoomScreen(
         LazyColumn(
             modifier = modifier,
             state = scrollState,
+
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

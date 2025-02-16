@@ -11,6 +11,7 @@ data class HabitacionWrapper(
 )
 
 data class Habitacion(
+    @SerializedName("_id") val id :String?,
     @SerializedName("codigo") val codigo: String,
     @SerializedName("nombre") val nombre: String,
     @SerializedName("categoria") val categoria: String,
