@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hotelperemaria.search_room.model.Reserva
 import com.example.hotelperemaria.api.RetrofitInstance
+import com.example.hotelperemaria.utils.Config
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -200,7 +201,7 @@ class BookRoomViewModel @Inject constructor(
             selectedRoom = null,
             totalPrice = 0.0,
             bookingCode = "",
-            userId = "67aa1964acc7f4ca632c6f78",
+            userId = Config._id,
             booking = null,
         )
     }

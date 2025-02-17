@@ -3,10 +3,8 @@ package com.example.hotelperemaria.login.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hotelperemaria.api.ApiService
 import com.example.hotelperemaria.api.LoginRequest
 import com.example.hotelperemaria.api.RetrofitInstance
-import com.example.hotelperemaria.login.model.Usuario
 import com.example.hotelperemaria.utils.Config
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
