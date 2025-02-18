@@ -172,7 +172,7 @@ class BookRoomViewModel @Inject constructor(
                     habitacion = it.selectedRoom!!.id.toString(),
                     codigo = it.bookingCode,
                     precio = it.totalPrice,
-                    usuario = "67aa1964acc7f4ca632c6f78"
+                    usuario = Config._id
                 ),
             )
         }
