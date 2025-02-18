@@ -1,17 +1,25 @@
 # Hotel Pere María - Android
 
+[![Android CI](https://img.shields.io/badge/Android-Studio-green?style=for-the-badge)](https://developer.android.com/studio)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+[![GitHub contributors](https://img.shields.io/github/contributors/pablisEsp/HotelPereMaria-Android?style=for-the-badge)](https://github.com/pablisEsp/HotelPereMaria-Android/graphs/contributors)
 
+---
 
 ## Descripción
 
-**Hotel Pere María - Android** es una aplicación móvil desarrollada como proyecto intermodular para la asignatura de 2º DAM. La aplicación simula las funcionalidades de un sistema de gestión para el Hotel Pere María, permitiendo gestionar reservas, consultar información del hotel y ofrecer una experiencia de usuario intuitiva.
+**Hotel Pere María - Android** es una aplicación móvil desarrollada como proyecto intermodular para la asignatura de 2º DAM. Esta app simula el sistema de gestión de reservas y consultas de un hotel, ofreciendo una experiencia intuitiva y funcional tanto para usuarios como para administradores.
+
+---
 
 ## Características
 
-- **Gestión de reservas:** Permite a los usuarios realizar y gestionar reservas de habitaciones.
-- **Consulta de información:** Visualiza detalles sobre las habitaciones, servicios e instalaciones del hotel.
-- **Interfaz modular:** Estructura modular que facilita el mantenimiento, escalabilidad y mejora continua del proyecto.
-- **Tecnologías Android:** Implementado siguiendo las mejores prácticas y herramientas de Android Studio.
+- **Gestión de reservas:** Realiza y administra reservas de habitaciones de forma sencilla.
+- **Información del hotel:** Consulta detalles sobre las habitaciones, servicios e instalaciones.
+- **Arquitectura modular:** Código organizado en módulos, facilitando el mantenimiento y escalabilidad.
+- **Interfaz amigable:** Diseño moderno y limpio que mejora la experiencia del usuario.
+
+---
 
 ## Integrantes del Equipo
 
@@ -19,12 +27,16 @@
 - **Pablo**
 - **Luismi**
 
+---
+
 ## Tecnologías Utilizadas
 
-- **Android Studio**
-- **Java / Kotlin** (según el lenguaje principal del proyecto)
+- **[Android Studio](https://developer.android.com/studio)**
+- **Java / Kotlin** (elige el que estés utilizando)
 - **Gradle** para la gestión de dependencias y construcción del proyecto
-- Otras librerías y frameworks propios del ecosistema Android (actualiza esta sección según corresponda)
+- Otras librerías y frameworks propios del ecosistema Android (actualiza según corresponda)
+
+---
 
 ## Instalación
 
