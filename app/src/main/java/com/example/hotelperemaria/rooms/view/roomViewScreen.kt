@@ -105,7 +105,9 @@ fun RoomDetailScreen(
             Text(
                 text = habitacion!!.descripcion,
                 fontSize = 14.sp,
-                color = white
+                color = white,
+                maxLines = 3, // Define el número máximo de líneas antes de truncar
+                overflow = TextOverflow.Ellipsis // Agrega "..." cuando se sobrepasa el límite
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = "Servicios", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = white)
